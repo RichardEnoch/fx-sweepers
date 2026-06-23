@@ -1,0 +1,7 @@
+node_modules
+*.zip
+FX Sweepers website build
+uploads
+Font
+.vercel
+BUILD_PLAN.md

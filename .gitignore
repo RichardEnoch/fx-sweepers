@@ -1,0 +1,5 @@
+node_modules/
+*.zip
+FX Sweepers website build/
+.vercel/
+.image-slots.state.json
