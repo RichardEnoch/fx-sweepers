@@ -65,6 +65,8 @@
     [data-svc-aside]{position:static!important}
     [data-svc-imgwrap]{position:static!important;height:54vh!important;margin-bottom:24px}
     [data-svc-step]{min-height:auto!important;padding:28px 0!important}
+    [data-footer]{position:static!important;min-height:auto!important}
+    [data-main]{margin-bottom:0!important}
     [data-floatcard]{left:auto!important;right:18px!important;bottom:-22px!important}
   }
   @media(max-width:640px){
@@ -115,9 +117,6 @@
   }
   function debounce(fn, ms){ var t; return function(){ clearTimeout(t); t = setTimeout(fn, ms); }; }
 
-  // model-viewer self-registers its custom element; load in parallel (only needed from Phase 3).
-  load('https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js', true)
-    .catch(function(e){ console.warn(e); });
 
   // GSAP core -> ScrollTrigger plugin -> Lenis, strictly in order.
   load('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js')
@@ -522,7 +521,7 @@
     }
     function sizeFooter(){
       var f = document.querySelector('[data-footer]'), m = document.querySelector('[data-main]');
-      if (f && m){ m.style.marginBottom = f.offsetHeight + 'px'; if (ST) ST.refresh(); }
+      if (f && m){ m.style.marginBottom = window.matchMedia('(min-width:981px)').matches ? (f.offsetHeight + 'px') : '0px'; if (ST) ST.refresh(); }
     }
     function footerReveal(){
       if (!gsap || !ST || FX.reduced || footerReveal._done) return;
@@ -569,7 +568,7 @@
     if (document.getElementById('fx-pre')) return;
     var pre = document.createElement('div'); pre.id = 'fx-pre';
     pre.innerHTML =
-      '<img class="pllogo" src="assets/logo-horizontal-white.png" alt="Fx Sweepers">'
+      '<img class="pllogo" src="assets/logo-horizontal-white.png" alt="FxSweepers">'
       + '<div class="pltrack"><div class="plfill"></div>'
       + '<svg class="plsweep" viewBox="0 0 24 24" fill="none"><path d="M2.5 14.5h11l2-4.5H19l2 4.5v3h-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 14.5V9" stroke="#65C602" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="18.5" r="2.1" fill="currentColor"/><circle cx="17" cy="18.5" r="2.1" fill="currentColor"/></svg>'
       + '</div><div class="pllabel">Sweeping in…</div>';
@@ -593,7 +592,7 @@
   <header style="{{ headerStyle }}">
     <div style="max-width:1280px;margin:0 auto;padding:0 32px;height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px">
       <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;text-decoration:none;flex:none">
-        <img ref="{{ logoRef }}" src="assets/logo-horizontal-white.png" alt="Fx Sweepers" style="height:46px;width:auto;display:block">
+        <img ref="{{ logoRef }}" src="assets/logo-horizontal-white.png" alt="FxSweepers" style="height:46px;width:auto;display:block">
       </a>
       <nav style="display:flex;align-items:center;gap:4px" data-desktop-nav>
         <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
@@ -624,7 +623,7 @@
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:120;background:#0A2E4A;display:flex;flex-direction:column;padding:24px 28px 40px;animation:fadeIn .25s ease">
       <div style="display:flex;align-items:center;justify-content:space-between;height:54px;margin-bottom:30px">
-        <img src="assets/logo-horizontal-white.png" alt="Fx Sweepers" style="height:42px">
+        <img src="assets/logo-horizontal-white.png" alt="FxSweepers" style="height:42px">
         <button onClick="{{ toggleMenu }}" aria-label="Close" style="background:none;border:none;color:#fff;cursor:pointer"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
       <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
@@ -725,9 +724,9 @@
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Who we are</span>
             <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Cleaning infrastructure, not a cleaning crew</h2>
-            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">Fx Sweepers is a commercial outdoor cleaning company built on a fleet of electric, machine-powered sweepers. We deliver consistent, world-class results at a scale manual labour simply can't match — and we supply the machinery behind it.</p>
+            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">FxSweepers is a commercial outdoor cleaning company built on a fleet of electric, machine-powered sweepers. We deliver consistent, world-class results at a scale manual labour simply can't match — and we supply the machinery behind it.</p>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:16px">Eco-friendly by design, engineered for reliability, and ready for corporate contracts nationwide.</p>
-            <a href="#" onClick="{{ goAbout }}" style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;color:#0A2E4A;font-weight:700;font-size:16px;text-decoration:none;border-bottom:2px solid #65C602;padding-bottom:4px" style-hover="color:#00A4D5">About Fx Sweepers <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="#" onClick="{{ goAbout }}" style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;color:#0A2E4A;font-weight:700;font-size:16px;text-decoration:none;border-bottom:2px solid #65C602;padding-bottom:4px" style-hover="color:#00A4D5">About FxSweepers <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
           <div data-reveal="1" style="position:relative;opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
             <image-slot id="fx-home-intro" shape="rounded" radius="20" fit="cover" placeholder="Drop a fleet / crew photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
@@ -804,7 +803,7 @@
           <div data-reveal="1" style="order:1;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="display:inline-flex;align-items:center;gap:8px;background:#EAF7E3;color:#4C9300;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;padding:7px 14px;border-radius:100px">We also supply the machines</span>
             <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:18px">Own the equipment behind the clean</h2>
-            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:18px">Beyond our managed sweeping service, Fx Sweepers sells the commercial cleaning machinery itself — ride-on sweepers, scrubber-driers and walk-behind units, with guidance on the right fit for your facility.</p>
+            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:18px">Beyond our managed sweeping service, FxSweepers sells the commercial cleaning machinery itself — ride-on sweepers, scrubber-driers and walk-behind units, with guidance on the right fit for your facility.</p>
             <a href="#" onClick="{{ goEquipment }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:30px;background:#65C602;color:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:8px;text-decoration:none;box-shadow:0 8px 22px rgba(101,198,2,.28);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-2px)">Browse equipment <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
         </div>
@@ -880,7 +879,7 @@
         <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,38,61,.55) 0%,rgba(8,38,61,.4) 40%,rgba(8,38,61,.9) 100%)"></div>
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 64px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-            <span style="color:#7FD0EC;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">About Fx Sweepers</span>
+            <span style="color:#7FD0EC;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">About FxSweepers</span>
             <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Sweeping Nigeria forward</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:18px;max-width:560px">A modern cleaning company on a mission to bring the Nigerian outdoor-cleaning industry to a world-class stage.</p>
           </div>
@@ -893,7 +892,7 @@
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Who we are</span>
             <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">A registered company built for scale</h2>
-            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">Fx Sweepers is a registered limited liability company providing commercial outdoor sweeping nationwide. We operate a fleet of electric, machine-powered sweepers — treating cleaning as infrastructure, delivered to a consistent, measurable standard.</p>
+            <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">FxSweepers is a registered limited liability company providing commercial outdoor sweeping nationwide. We operate a fleet of electric, machine-powered sweepers — treating cleaning as infrastructure, delivered to a consistent, measurable standard.</p>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:16px">From a single forecourt to a portfolio of estates and malls, we have the equipment, the process and the reach to keep your spaces immaculate.</p>
           </div>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
@@ -924,7 +923,7 @@
             <image-slot id="fx-about-why" shape="rounded" radius="20" fit="cover" placeholder="Drop a before/after or detail photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
           </div>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-            <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Why Fx Sweepers</span>
+            <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Why FxSweepers</span>
             <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px;margin-bottom:14px">Built different, by design</h2>
             <sc-for list="{{ whyPoints }}" as="w" hint-placeholder-count="5">
               <div style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #E2EEF4">
@@ -1104,10 +1103,6 @@
               <div data-reveal="1" data-spotlight style="background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(28px)" style-hover="transform:translateY(-6px);box-shadow:0 22px 44px rgba(8,38,61,.14)">
                 <div style="position:relative;aspect-ratio:4/5;background:#EEF5F9">
                   <image-slot id="{{ e.slot }}" shape="rect" fit="cover" placeholder="{{ e.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
-                  <sc-if value="{{ e.model }}" hint-placeholder-val="">
-                    <model-viewer data-eq-3d data-cursor="drag" src="{{ e.model }}" alt="{{ e.name }} — 3D preview" camera-controls auto-rotate disable-zoom interaction-prompt="none" shadow-intensity="1" exposure="1.05" environment-image="neutral" loading="lazy" reveal="auto" style="position:absolute;inset:0;width:100%;height:100%;background:transparent;--poster-color:transparent;--progress-bar-color:#65C602"></model-viewer>
-                    <span style="position:absolute;bottom:10px;right:10px;z-index:4;background:rgba(8,38,61,.7);backdrop-filter:blur(4px);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:5px;pointer-events:none"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Drag to rotate</span>
-                  </sc-if>
                   <sc-if value="{{ e.tag }}" hint-placeholder-val="">
                     <span style="position:absolute;top:13px;left:13px;background:#65C602;color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;padding:6px 12px;border-radius:100px">{{ e.tag }}</span>
                   </sc-if>
@@ -1294,7 +1289,7 @@
         </div>
         <div data-fpop style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:48px;padding:clamp(36px,5vw,54px) 0;border-bottom:1px solid rgba(255,255,255,.1)" data-footer-grid>
         <div>
-          <img src="assets/logo-horizontal-white.png" alt="Fx Sweepers" style="height:48px;margin-bottom:20px">
+          <img src="assets/logo-horizontal-white.png" alt="FxSweepers" style="height:48px;margin-bottom:20px">
           <p style="color:#9CB8CA;font-size:15px;line-height:1.7;max-width:300px">The Future of Outdoor Sweeping. Electric, machine-powered cleaning infrastructure bringing Nigeria's commercial spaces to a world-class standard.</p>
           <div style="display:flex;gap:10px;margin-top:24px">
             <a href="#" aria-label="Instagram" style="width:40px;height:40px;border-radius:9px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:#fff;transition:background .2s" style-hover="background:#00A4D5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg></a>
@@ -1323,11 +1318,11 @@
         </div>
       </div>
       <div data-fpop style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px 0 6px">
-        <p style="color:#7A98AB;font-size:13.5px">© 2026 Fx Sweepers. A registered limited liability company. All rights reserved.</p>
+        <p style="color:#7A98AB;font-size:13.5px">© 2026 FxSweepers. A registered limited liability company. All rights reserved.</p>
         <p style="color:#7A98AB;font-size:13.5px">Bringing the Nigerian cleaning industry to a world-class stage.</p>
       </div>
       </div><!-- /content (sits ABOVE the wordmark) -->
-      <div aria-hidden="true" style="position:relative;z-index:1;text-align:center;font-weight:800;font-size:clamp(58px,16vw,236px);line-height:.78;letter-spacing:-.045em;white-space:nowrap;overflow:hidden;padding:0 8px;background:linear-gradient(180deg,rgba(150,210,255,.18),rgba(150,210,255,.015));-webkit-background-clip:text;background-clip:text;color:transparent">Fx Sweepers</div>
+      <div aria-hidden="true" style="position:relative;z-index:1;text-align:center;font-weight:800;font-size:clamp(58px,16vw,236px);line-height:.78;letter-spacing:-.045em;white-space:nowrap;overflow:hidden;padding:0 8px;background:linear-gradient(180deg,rgba(150,210,255,.18),rgba(150,210,255,.015));-webkit-background-clip:text;background-clip:text;color:transparent">FxSweepers</div>
     </div><!-- /rounded card -->
   </footer>
 
@@ -1481,7 +1476,6 @@ class Component extends DCLogic {
         { slot:'fx-svc-vid-3', ph:'Drop video — before & after', clip:'assets/ph/sweep3.mp4' },
       ],
       whyPoints: [
-        { title:'Electric & eco-friendly', desc:'A zero-emission fleet that cleans quietly and responsibly — a story your stakeholders will value.' },
         { title:'Consistent, measurable results', desc:'Standardised process and reporting mean the same high standard, every visit, across every site.' },
         { title:'Efficient at scale', desc:'Machines cover far more ground than manual crews — faster turnaround, lower long-term cost.' },
         { title:'Nationwide reach', desc:'Coverage across Nigeria, ready to service single sites or multi-location portfolios.' },
