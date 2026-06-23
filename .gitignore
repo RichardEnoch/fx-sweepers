@@ -3,3 +3,5 @@ node_modules/
 FX Sweepers website build/
 .vercel/
 .image-slots.state.json
+
+.vercel

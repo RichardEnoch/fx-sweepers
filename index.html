@@ -8,18 +8,18 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-Light.ttf') format('truetype');font-weight:300;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-SemiBold.ttf') format('truetype');font-weight:600;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-ExtraBold.ttf') format('truetype');font-weight:800;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('Mulish/Mulish-Black.ttf') format('truetype');font-weight:900;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Light.woff2') format('woff2');font-weight:300;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-ExtraBold.woff2') format('woff2');font-weight:800;font-display:swap}
+  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Black.woff2') format('woff2');font-weight:900;font-display:swap}
   html{scroll-behavior:smooth}
   body{font-family:'Mulish','Outfit',sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:#0F1B24}
   ::selection{background:#65C602;color:#fff}
@@ -458,11 +458,25 @@
   function pick(id, i){ return POOL[i % POOL.length]; }
   function fill(){
     document.querySelectorAll('x-import').forEach(function(e){ e.style.display = 'none'; });
-    var i = 0;
-    document.querySelectorAll('image-slot').forEach(function(s){
-      if (s.id === 'fx-loader' || s.getAttribute('src')) return;
-      s.setAttribute('src', 'assets/ph/' + pick(s.id, i) + '.jpg'); i++;
+    var slots = [].slice.call(document.querySelectorAll('image-slot')).filter(function(s){
+      return s.id !== 'fx-loader' && !s.getAttribute('src') && !s.dataset.fxLazy;
     });
+    var i = 0;
+    if (!('IntersectionObserver' in window)){
+      slots.forEach(function(s){ s.setAttribute('src', 'assets/ph/' + pick(s.id, i++) + '.jpg'); });
+      return;
+    }
+    // lazy-load: only fetch an image when its slot nears the viewport
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){
+          var s = en.target;
+          if (!s.getAttribute('src')) s.setAttribute('src', 'assets/ph/' + pick(s.id, parseInt(s.dataset.fxIdx||'0',10)) + '.jpg');
+          io.unobserve(s);
+        }
+      });
+    }, { rootMargin: '300px' });
+    slots.forEach(function(s){ s.dataset.fxLazy = '1'; s.dataset.fxIdx = String(i++); io.observe(s); });
   }
   function boot(){
     fill();
@@ -544,8 +558,8 @@
     + '#fx-pre.done{transform:translateY(-100%)}'
     + '#fx-pre .pllogo{height:46px;opacity:0;transform:translateY(8px);animation:plIn .6s ease forwards}'
     + '#fx-pre .pltrack{position:relative;width:min(360px,72vw);height:12px;border-radius:99px;background:rgba(255,255,255,.1)}'
-    + '#fx-pre .plfill{position:absolute;inset:0 auto 0 0;width:0;border-radius:99px;background:linear-gradient(90deg,#00A4D5,#65C602);animation:plFill 1.7s cubic-bezier(.55,.06,.3,1) forwards}'
-    + '#fx-pre .plsweep{position:absolute;top:50%;left:0;width:40px;height:40px;color:#fff;transform:translate(-46%,-50%);animation:plSweep 1.7s cubic-bezier(.55,.06,.3,1) forwards;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}'
+    + '#fx-pre .plfill{position:absolute;inset:0 auto 0 0;width:0;border-radius:99px;background:linear-gradient(90deg,#00A4D5,#65C602);animation:plFill 1.3s cubic-bezier(.55,.06,.3,1) forwards}'
+    + '#fx-pre .plsweep{position:absolute;top:50%;left:0;width:40px;height:40px;color:#fff;transform:translate(-46%,-50%);animation:plSweep 1.3s cubic-bezier(.55,.06,.3,1) forwards;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}'
     + '#fx-pre .pllabel{color:#9CC0D4;font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;opacity:0;animation:plIn .6s .25s ease forwards}'
     + '@keyframes plFill{to{width:100%}}@keyframes plSweep{from{left:0}to{left:100%}}@keyframes plIn{to{opacity:1;transform:none}}'
     + '@media(prefers-reduced-motion:reduce){#fx-pre .plfill,#fx-pre .plsweep{animation-duration:.01s}}';
@@ -560,9 +574,11 @@
       + '</div><div class="pllabel">Sweeping in…</div>';
     (document.body || document.documentElement).appendChild(pre);
     var start = Date.now();
-    function done(){ pre.classList.add('done'); setTimeout(function(){ pre.parentNode && pre.remove(); }, 850); }
-    function finish(){ setTimeout(done, Math.max(0, 2000 - (Date.now() - start))); }
-    if (document.readyState === 'complete') finish(); else window.addEventListener('load', finish);
+    function done(){ if(pre.classList.contains('done'))return; pre.classList.add('done'); setTimeout(function(){ pre.parentNode && pre.remove(); }, 800); }
+    function finish(){ setTimeout(done, Math.max(0, 1400 - (Date.now() - start))); }
+    // hide shortly after the DOM is ready — don't block on heavy media
+    if (document.readyState !== 'loading') finish(); else document.addEventListener('DOMContentLoaded', finish);
+    setTimeout(done, 2600);   // hard safety cap
   }
   if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
