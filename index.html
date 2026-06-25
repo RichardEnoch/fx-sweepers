@@ -30,6 +30,11 @@
   @keyframes scrollHint{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   [data-svc-mobile]{display:none}
+  .eqchip{font-family:inherit;cursor:pointer;border:1px solid #D6E6F0;background:#fff;color:#3C5566;font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:100px;transition:background .2s,border-color .2s,color .2s}
+  .eqchip:hover{border-color:#00A4D5;color:#00A4D5}
+  .eqchip.is-active{background:#0A2E4A;border-color:#0A2E4A;color:#fff}
+  .eqspec{background:#F2F8FB;border:1px solid #E6F0F6;color:#3C5566;font-size:12px;font-weight:600;padding:5px 10px;border-radius:7px;white-space:nowrap}
+  [data-eqcard].is-hidden{display:none}
   @keyframes mItem{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   [data-menu] .mlink{opacity:0;animation:mItem .5s cubic-bezier(.2,.7,.2,1) forwards}
   [data-menu] .mlink:nth-child(1){animation-delay:.08s}
@@ -594,6 +599,32 @@
   if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
 </script>
+
+<!-- Equipment catalogue category filter -->
+<script>
+(function(){
+  function init(FX){
+    function bind(){
+      var box = document.querySelector('[data-eqfilters]');
+      if (!box || box.dataset.bound) return;
+      box.dataset.bound = '1';
+      var chips = box.querySelectorAll('.eqchip');
+      chips.forEach(function(c){
+        c.addEventListener('click', function(){
+          var f = c.getAttribute('data-filter');
+          chips.forEach(function(x){ x.classList.toggle('is-active', x === c); });
+          document.querySelectorAll('[data-eqcard]').forEach(function(card){
+            card.classList.toggle('is-hidden', !(f === 'all' || card.getAttribute('data-cat') === f));
+          });
+          if (window.FXMotion) window.FXMotion.refresh();
+        });
+      });
+    }
+    FX.onPage(bind);
+  }
+  if (window.FXMotion) window.FXMotion.ready.then(init);
+})();
+</script>
 </helmet>
 <x-import component-from-global-scope="image-slot" from="./image-slot.js?v=2" id="fx-loader" hint-size="0,0" style="display:none"></x-import>
 
@@ -1136,21 +1167,34 @@
               <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">The catalogue</span>
               <h2 style="color:#0A2E4A;font-size:clamp(30px,4.2vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Commercial sweeping machinery</h2>
             </div>
-            <span style="color:#5A7184;font-size:15px;line-height:1.5;max-width:280px">No online store at launch — every machine is enquiry-based so we can match you to the right unit.</span>
+            <span style="color:#5A7184;font-size:15px;line-height:1.5;max-width:300px">16 machines across 5 categories — enquiry-based, so we can match you to the right unit.</span>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
+          <div data-eqfilters style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px">
+            <button type="button" class="eqchip is-active" data-filter="all">All</button>
+            <button type="button" class="eqchip" data-filter="compact">Compact ride-on</button>
+            <button type="button" class="eqchip" data-filter="enclosed">Enclosed cab</button>
+            <button type="button" class="eqchip" data-filter="heavy">Heavy-duty</button>
+            <button type="button" class="eqchip" data-filter="specialized">Specialized</button>
+            <button type="button" class="eqchip" data-filter="european">Premium European</button>
+          </div>
+          <div data-eqgrid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:26px">
             <sc-for list="{{ equipment }}" as="e" hint-placeholder-count="6">
-              <div data-reveal="1" data-spotlight style="background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(28px)" style-hover="transform:translateY(-6px);box-shadow:0 22px 44px rgba(8,38,61,.14)">
+              <div data-reveal="1" data-spotlight data-eqcard data-cat="{{ e.cat }}" style="display:flex;flex-direction:column;background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(28px)" style-hover="transform:translateY(-6px);box-shadow:0 22px 44px rgba(8,38,61,.14)">
                 <div style="position:relative;aspect-ratio:4/5;background:#EEF5F9">
                   <image-slot id="{{ e.slot }}" shape="rect" fit="cover" placeholder="{{ e.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+                  <span style="position:absolute;top:13px;left:13px;background:rgba(8,38,61,.72);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:100px">{{ e.type }}</span>
                   <sc-if value="{{ e.tag }}" hint-placeholder-val="">
-                    <span style="position:absolute;top:13px;left:13px;background:#65C602;color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;padding:6px 12px;border-radius:100px">{{ e.tag }}</span>
+                    <span style="position:absolute;top:13px;right:13px;background:#65C602;color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:100px">{{ e.tag }}</span>
                   </sc-if>
                 </div>
-                <div style="padding:22px 22px 24px">
-                  <h3 style="color:#0A2E4A;font-size:20px;font-weight:700">{{ e.name }}</h3>
-                  <p style="color:#5A7184;font-size:14.5px;line-height:1.5;margin-top:7px;min-height:42px">{{ e.spec }}</p>
-                  <a href="#" onClick="{{ goContact }}" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;background:#0A2E4A;color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:9px;text-decoration:none;transition:background .2s" style-hover="background:#00A4D5">Enquire</a>
+                <div style="display:flex;flex-direction:column;flex:1;padding:20px 20px 22px">
+                  <h3 style="color:#0A2E4A;font-size:18.5px;font-weight:800;line-height:1.2">{{ e.name }}</h3>
+                  <span style="color:#00A4D5;font-size:12.5px;font-weight:700;letter-spacing:.04em;margin-top:3px">{{ e.model }}</span>
+                  <p style="color:#5A7184;font-size:13.5px;line-height:1.55;margin-top:10px">{{ e.blurb }}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+                    <span class="eqspec">{{ e.s1 }}</span><span class="eqspec">{{ e.s2 }}</span><span class="eqspec">{{ e.s3 }}</span>
+                  </div>
+                  <a href="#" onClick="{{ goContact }}" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding-top:18px;background:transparent;color:#fff;font-weight:700;font-size:14.5px;text-decoration:none"><span style="display:flex;align-items:center;justify-content:center;width:100%;background:#0A2E4A;padding:12px;border-radius:9px;transition:background .2s" style-hover="background:#00A4D5">Enquire</span></a>
                 </div>
               </div>
             </sc-for>
@@ -1492,15 +1536,25 @@ class Component extends DCLogic {
       setRoot: (el)=>{ this.rootEl = el; },
       logoRef: (el)=>{ this.logoEl = el; this._syncLogo(); },
       navItems, homeServices, stats, steps,
+      // Real catalogue (16 machines) from fxsweepers-equipment-content.md. Images are placeholders
+      // until real/AI product shots are produced. cat = filter category.
       equipment: [
-        // `model` = TEMPORARY placeholder .glb (Khronos samples via jsDelivr). Swap for real machine
-        // .glb files. Only the first 3 carry a model (the "hero machines"); the rest use photos.
-        { slot:'fx-eq-1', ph:'Drop machine photo', name:'Ride-On Sweeper', spec:'Large-area outdoor sweeping · electric', tag:'Best seller', model:'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb' },
-        { slot:'fx-eq-2', ph:'Drop machine photo', name:'Walk-Behind Sweeper', spec:'Compact spaces & tight corners · electric', tag:'', model:'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb' },
-        { slot:'fx-eq-3', ph:'Drop machine photo', name:'Scrubber-Drier', spec:'Hard-floor scrub & dry in one pass', tag:'', model:'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb' },
-        { slot:'fx-eq-4', ph:'Drop machine photo', name:'Industrial Vacuum Sweeper', spec:'Heavy dust & debris · high capacity', tag:'' },
-        { slot:'fx-eq-5', ph:'Drop machine photo', name:'Compact City Sweeper', spec:'Forecourts & car parks · agile', tag:'' },
-        { slot:'fx-eq-6', ph:'Drop machine photo', name:'Sweeper Attachments', spec:'Brushes, filters & spare parts', tag:'' },
+        { slot:'fx-eq-1',  ph:'Compact 3-Brush Sweeper', name:'Compact 3-Brush Sweeper', model:'YX-1360A', type:'Compact ride-on', cat:'compact', blurb:'A compact three-brush ride-on sweeper for mid-sized commercial floors and forecourts, with intelligent dust-shaking filtration.', s1:'1.36 m sweep path', s2:'8,000 m²/h', s3:'48V electric', tag:'' },
+        { slot:'fx-eq-2',  ph:'3-Brush Ride-On Sweeper', name:'3-Brush Ride-On Sweeper', model:'YX-16A', type:'Compact ride-on', cat:'compact', blurb:'A wider-path three-brush ride-on with longer runtime and HD reverse camera for larger commercial sites.', s1:'1.6 m sweep path', s2:'up to 13,500 m²/h', s3:'180 L bin', tag:'Popular' },
+        { slot:'fx-eq-3',  ph:'Enclosed 5-Brush Sweeper', name:'Enclosed 5-Brush Sweeper', model:'Model D', type:'Enclosed cab', cat:'enclosed', blurb:'An enclosed-cab five-brush sweeper for all-weather operation, sealing the operator in through any shift.', s1:'1.9 m sweep path', s2:'up to 15,000 m²/h', s3:'enclosed cab', tag:'' },
+        { slot:'fx-eq-4',  ph:'Enclosed 5-Brush Sweeper Plus', name:'Enclosed 5-Brush Sweeper Plus', model:'Model D Plus', type:'Enclosed cab', cat:'enclosed', blurb:'The upgraded enclosed five-brush sweeper — same performance in a larger, more robust frame for demanding daily duty.', s1:'1.9 m sweep path', s2:'up to 15,000 m²/h', s3:'larger frame', tag:'' },
+        { slot:'fx-eq-5',  ph:'Wolf Warrior 3', name:'Wolf Warrior 3', model:'SP-Wolf Warrior 3', type:'Heavy-duty', cat:'heavy', blurb:'A heavy-duty ride-on with a telescopic path and four side brushes for sustained, wide-area cleaning.', s1:'1.5–2.3 m telescopic', s2:'up to 20,000 m²/h', s3:'240 L bin', tag:'' },
+        { slot:'fx-eq-6',  ph:'Wolf Warrior 3 Plus', name:'Wolf Warrior 3 Plus', model:'SP-Wolf Warrior 3 Plus', type:'Heavy-duty', cat:'heavy', blurb:'The reinforced Wolf Warrior — the same telescopic reach and four-brush coverage in a heavier, higher-capacity build.', s1:'1.5–2.3 m telescopic', s2:'240 L bin', s3:'1,000 kg', tag:'' },
+        { slot:'fx-eq-7',  ph:'Vacuum + Flushing Sweeper', name:'Vacuum + Flushing Sweeper', model:'SR/LH-A1', type:'Specialized', cat:'specialized', blurb:'A fully enclosed three-wheel machine that sweeps, vacuums and high-pressure washes — three jobs in one pass.', s1:'sweep + vacuum + wash', s2:'≤2 m width', s3:'≤18,000 m²/h', tag:'3-in-1' },
+        { slot:'fx-eq-8',  ph:'Hurricane No.1 Bucket Sweeper', name:'Hurricane No.1 Bucket Sweeper', model:'SR2200-240L', type:'Specialized', cat:'specialized', blurb:'A new-energy bucket sweeper with an auto-expanding front brush, twin high-volume fans and integrated high-pressure cleaning.', s1:'1.5–2.2 m auto-expand', s2:'≤22,000 m²/h', s3:'240 L bin', tag:'' },
+        { slot:'fx-eq-9',  ph:'Cleaning King', name:'Cleaning King', model:'SP-Cleaning King', type:'Heavy-duty', cat:'heavy', blurb:'A flagship telescopic sweeper with a freely adjustable path, four side brushes and an 800 L water tank for the highest-throughput sites.', s1:'1.55–2.5 m telescopic', s2:'up to 22,500 m²/h', s3:'800 L tank', tag:'' },
+        { slot:'fx-eq-10', ph:'4-Wheel Bucket-Mounted Sweeper', name:'4-Wheel Bucket-Mounted Sweeper', model:'SP-Four-Wheel 240L', type:'Heavy-duty', cat:'heavy', blurb:'A four-wheel bucket-mounted sweeper engineered for stability and reach on open commercial ground.', s1:'1.5–2.3 m path', s2:'240 L bin', s3:'1,500 kg', tag:'' },
+        { slot:'fx-eq-11', ph:'5-Brush Sweeper (G21A)', name:'5-Brush Sweeper (G21A)', model:'YX-G21A', type:'Enclosed cab', cat:'enclosed', blurb:'A five-brush ride-on with integrated high-pressure water and a fog cannon for dust suppression on dusty sites.', s1:'2.1 m sweep path', s2:'180 L bin', s3:'6–10 m fog cannon', tag:'' },
+        { slot:'fx-eq-12', ph:'Wide 5-Brush Sweeper (G25)', name:'Wide 5-Brush Sweeper (G25)', model:'YX-G25', type:'Enclosed cab', cat:'enclosed', blurb:'A wide-body five-brush sweeper clearing up to 35,000 m²/h, with HD reverse camera and a 1,500W high-pressure system.', s1:'2.5 m sweep path', s2:'up to 35,000 m²/h', s3:'HD camera', tag:'' },
+        { slot:'fx-eq-13', ph:'5-Brush Sweeper (240L)', name:'5-Brush Sweeper (240L)', model:'YX-240L', type:'Enclosed cab', cat:'enclosed', blurb:'A five-brush sweeper with faster road travel for covering ground quickly, plus full high-pressure and fog-cannon cleaning.', s1:'2.45 m sweep path', s2:'0–18 km/h', s3:'up to 35,000 m²/h', tag:'' },
+        { slot:'fx-eq-14', ph:'Single-Dustbin Sweeper', name:'Single-Dustbin Sweeper', model:'YX-G25 Single', type:'Enclosed cab', cat:'enclosed', blurb:'A high-speed single-bin sweeper on a 60V lithium platform, built for fast coverage of large municipal and industrial areas.', s1:'0–20 km/h', s2:'up to 40,000 m²/h', s3:'60V lithium', tag:'' },
+        { slot:'fx-eq-15', ph:'Double-Dustbin Sweeper', name:'Double-Dustbin Sweeper', model:'YX-G25 Double', type:'Enclosed cab', cat:'enclosed', blurb:'A dual-bin, high-capacity sweeper built for the largest continuous routes — big bin, big tank, high road speed.', s1:'480 L bin', s2:'800 L tank', s3:'up to 45,000 m²/h', tag:'Max capacity' },
+        { slot:'fx-eq-16', ph:'European Pure-Suction Sweeper', name:'European Pure-Suction Sweeper', model:'YX-5C', type:'Premium European', cat:'european', blurb:'A four-wheel, two-seat European-style dump sweeper with pure-suction cleaning, a hydraulic dump hopper and all-day lithium runtime.', s1:'1,280 L dump hopper', s2:'2 m dump height', s3:'up to 14 h runtime', tag:'Flagship' },
       ],
       serviceRows: [
         { slot:'fx-svc-row-1', ph:'Drop footage — forecourt sweep', tag:'01', title:'Gas Stations & Forecourts', desc:'Keep fuel forecourts, canopies and approaches spotless and safe. We work around your trading hours so customers never see anything but clean.' },
@@ -1517,8 +1571,8 @@ class Component extends DCLogic {
       ],
       whyPoints: [
         { title:'Eco-friendly', desc:'A cleaner, quieter, low-emission operation — responsible by design and a story your stakeholders will value.' },
-        { title:'Consistent, measurable results', desc:'Standardised process and reporting mean the same high standard, every visit, across every site.' },
-        { title:'Efficient at scale', desc:'Machines cover far more ground than manual crews — faster turnaround, lower long-term cost.' },
+        { title:'Consistent and measurable results', desc:'Every visit, across every site — the same high standard, every time.' },
+        { title:'Capacity at scale', desc:'Capacity to clear up to 45,000 m² an hour — far more ground than manual crews, at a fraction of the cost.' },
         { title:'Nationwide reach', desc:'Coverage across Nigeria, ready to service single sites or multi-location portfolios.' },
         { title:'Reliability you can contract on', desc:'A registered company built for corporate agreements, SLAs and long-term partnerships.' },
       ],
