@@ -5,3 +5,5 @@ FX Sweepers website build/
 .image-slots.state.json
 
 .vercel
+catalogue images/
+_samples/
