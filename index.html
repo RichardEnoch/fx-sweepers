@@ -35,6 +35,27 @@
   .eqchip.is-active{background:#0A2E4A;border-color:#0A2E4A;color:#fff}
   .eqspec{background:#F2F8FB;border:1px solid #E6F0F6;color:#3C5566;font-size:12px;font-weight:600;padding:5px 10px;border-radius:7px;white-space:nowrap}
   [data-eqcard].is-hidden{display:none}
+  .eqm-ov{position:fixed;inset:0;z-index:2147483646;display:none;align-items:center;justify-content:center;background:rgba(6,20,33,.82);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s ease;padding:4vw}
+  .eqm-ov.show{opacity:1}
+  .eqm{position:relative;width:min(1000px,96vw);max-height:90vh;overflow:hidden;background:#fff;border-radius:18px;box-shadow:0 40px 90px rgba(0,0,0,.5);transform:scale(.96);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-columns:1fr 1fr}
+  .eqm-ov.show .eqm{transform:scale(1)}
+  .eqm-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(8,38,61,.55);color:#fff;border:none;cursor:pointer;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .eqm-imgs{background:#EEF5F9;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+  .eqm-main{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;background:#dce8f0}
+  .eqm-thumbs{display:flex;gap:10px;flex-wrap:wrap}
+  .eqm-thumbs img{width:62px;height:62px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;background:#dce8f0}
+  .eqm-thumbs img.act{border-color:#00A4D5}
+  .eqm-body{padding:30px 30px 32px;overflow:auto}
+  .eqm-body h3{color:#0A2E4A;font-size:24px;font-weight:800;line-height:1.15}
+  .eqm-model{color:#00A4D5;font-weight:700;font-size:12.5px;letter-spacing:.05em;margin-top:5px;display:block}
+  .eqm-desc{color:#3C5566;font-size:15px;line-height:1.65;margin-top:16px}
+  .eqm-specs{margin-top:22px;border-top:1px solid #E6F0F6}
+  .eqm-specs .row{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid #F0F5F8;font-size:13.5px}
+  .eqm-specs .row .k{color:#5A7184;flex:none;max-width:48%}
+  .eqm-specs .row .v{color:#0A2E4A;font-weight:600;text-align:right}
+  .eqm-cta{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+  .eqm-cta a{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:14px 22px;border-radius:9px;text-decoration:none;color:#fff}
+  @media(max-width:760px){.eqm{grid-template-columns:1fr;max-height:92vh;overflow:auto}.eqm-main{aspect-ratio:16/11}.eqm-body{padding:24px}}
   @keyframes mItem{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   [data-menu] .mlink{opacity:0;animation:mItem .5s cubic-bezier(.2,.7,.2,1) forwards}
   [data-menu] .mlink:nth-child(1){animation-delay:.08s}
@@ -625,6 +646,93 @@
   if (window.FXMotion) window.FXMotion.ready.then(init);
 })();
 </script>
+
+<!-- Equipment product DETAIL modal — content pulled live from fxsweepers-equipment-content.md -->
+<script>
+(function(){
+  var DATA=null, loadP=null, box=null;
+  function key(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]/g,''); }
+  function ph(i){ return 'assets/ph/u'+((((i||0))%15)+1)+'.jpg'; }
+  function loadMD(){
+    if (DATA) return Promise.resolve(DATA);
+    if (loadP) return loadP;
+    loadP = fetch('fxsweepers-equipment-content.md').then(function(r){return r.text();})
+      .then(function(t){ DATA = parse(t); return DATA; }).catch(function(){ DATA = {}; return DATA; });
+    return loadP;
+  }
+  function parse(t){
+    var map = {};
+    t.split(/\n---\n/).forEach(function(blk){
+      if (blk.indexOf('**Model:**') < 0) return;
+      var name = ((blk.match(/^#\s*\d+\.\s*(.+)$/m)||[])[1]||'').trim();
+      var model = ((blk.match(/\*\*Model:\*\*\s*(.+)/)||[])[1]||'').trim();
+      var desc = ((blk.match(/\*\*Detail description:\*\*\s*([\s\S]*?)\n\*\*Specifications\*\*/)||[])[1]||'').trim().replace(/\s*\n\s*/g,' ');
+      var specBlk = ((blk.match(/\*\*Specifications\*\*([\s\S]*?)(?:\*\*Images:|$)/)||[])[1]||'');
+      var specs = [];
+      specBlk.split('\n').forEach(function(l){ l=l.trim(); if (l.slice(0,2)==='- '){ var s=l.slice(2).trim(); if (s.indexOf('⚠')!==0) specs.push(s); } });
+      var imgs = [];
+      ((((blk.match(/\*\*Images:\*\*\s*(.+)/)||[])[1])||'').match(/`([^`]+)`/g)||[]).forEach(function(m){ imgs.push(m.replace(/`/g,'')); });
+      var prod = { name:name, model:model, desc:desc, specs:specs, imgs:imgs };
+      if (name) map[key(name)] = prod;
+      if (model) map[key(model)] = prod;
+    });
+    return map;
+  }
+  function build(){
+    if (box) return box;
+    box = document.createElement('div'); box.className = 'eqm-ov';
+    box.innerHTML = '<div class="eqm"><button class="eqm-close" aria-label="Close">&times;</button>'
+      + '<div class="eqm-imgs"><img class="eqm-main" alt=""><div class="eqm-thumbs"></div></div>'
+      + '<div class="eqm-body"><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
+    document.body.appendChild(box);
+    function hide(){ box.classList.remove('show'); setTimeout(function(){ box.style.display='none'; }, 300); }
+    box.addEventListener('click', function(e){ if (e.target===box) hide(); });
+    box.querySelector('.eqm-close').addEventListener('click', hide);
+    document.addEventListener('keydown', function(e){ if (e.key==='Escape' && box.style.display==='flex') hide(); });
+    return box;
+  }
+  function render(p){
+    var b = build();
+    b.querySelector('h3').textContent = p.name;
+    b.querySelector('.eqm-model').textContent = 'Model: ' + p.model;
+    b.querySelector('.eqm-desc').textContent = p.desc;
+    var specsEl = b.querySelector('.eqm-specs'); specsEl.innerHTML = '';
+    p.specs.forEach(function(s){
+      var i = s.indexOf(': '); var k = i>0 ? s.slice(0,i) : s; var v = i>0 ? s.slice(i+2) : '';
+      var row = document.createElement('div'); row.className = 'row';
+      var ke = document.createElement('span'); ke.className='k'; ke.textContent = k;
+      var ve = document.createElement('span'); ve.className='v'; ve.textContent = v;
+      row.appendChild(ke); row.appendChild(ve); specsEl.appendChild(row);
+    });
+    var list = (p.imgs && p.imgs.length) ? p.imgs.slice(0,4) : [null,null,null,null];
+    var main = b.querySelector('.eqm-main'), thumbs = b.querySelector('.eqm-thumbs'); thumbs.innerHTML='';
+    function src(file,idx){ return file ? ('assets/products/'+file) : ph(idx); }
+    function setMain(file,idx){ main.onerror=function(){ main.onerror=null; main.src=ph(idx); }; main.src=src(file,idx); }
+    setMain(list[0],0);
+    list.forEach(function(file,idx){
+      var t=document.createElement('img'); t.onerror=function(){ t.onerror=null; t.src=ph(idx); }; t.src=src(file,idx);
+      if (idx===0) t.className='act';
+      t.addEventListener('click', function(){ setMain(file,idx); thumbs.querySelectorAll('img').forEach(function(x){x.classList.remove('act');}); t.classList.add('act'); });
+      thumbs.appendChild(t);
+    });
+    var msg = encodeURIComponent('Hi FxSweepers, I would like to enquire about the ' + p.name + ' (' + p.model + ').');
+    b.querySelector('.eqm-cta').innerHTML =
+      '<a href="https://wa.me/2348000000000?text=' + msg + '" target="_blank" rel="noopener" style="background:#25D366">Enquire on WhatsApp</a>'
+      + '<a href="tel:+2348000000000" style="background:#0A2E4A">Call us</a>';
+    b.style.display='flex'; requestAnimationFrame(function(){ b.classList.add('show'); });
+  }
+  function open(model, name){
+    loadMD().then(function(map){
+      var p = (name && map[key(name)]) || (model && map[key(model)]);
+      if (p) render(p);
+    });
+  }
+  document.addEventListener('click', function(e){
+    var c = e.target.closest && e.target.closest('[data-eq-open]');
+    if (c) open(c.getAttribute('data-eq-model'), c.getAttribute('data-eq-name'));
+  });
+})();
+</script>
 </helmet>
 <x-import component-from-global-scope="image-slot" from="./image-slot.js?v=2" id="fx-loader" hint-size="0,0" style="display:none"></x-import>
 
@@ -1179,7 +1287,7 @@
           </div>
           <div data-eqgrid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:26px">
             <sc-for list="{{ equipment }}" as="e" hint-placeholder-count="6">
-              <div data-reveal="1" data-spotlight data-eqcard data-cat="{{ e.cat }}" style="display:flex;flex-direction:column;background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(28px)" style-hover="transform:translateY(-6px);box-shadow:0 22px 44px rgba(8,38,61,.14)">
+              <div data-reveal="1" data-spotlight data-eqcard data-eq-open data-eq-model="{{ e.model }}" data-eq-name="{{ e.name }}" data-cat="{{ e.cat }}" style="cursor:pointer;display:flex;flex-direction:column;background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:transform .3s,box-shadow .3s;opacity:0;transform:translateY(28px)" style-hover="transform:translateY(-6px);box-shadow:0 22px 44px rgba(8,38,61,.14)">
                 <div style="position:relative;aspect-ratio:4/5;background:#EEF5F9">
                   <image-slot id="{{ e.slot }}" shape="rect" fit="cover" placeholder="{{ e.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
                   <span style="position:absolute;top:13px;left:13px;background:rgba(8,38,61,.72);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:100px">{{ e.type }}</span>
@@ -1194,7 +1302,7 @@
                   <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
                     <span class="eqspec">{{ e.s1 }}</span><span class="eqspec">{{ e.s2 }}</span><span class="eqspec">{{ e.s3 }}</span>
                   </div>
-                  <a href="#" onClick="{{ goContact }}" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding-top:18px;background:transparent;color:#fff;font-weight:700;font-size:14.5px;text-decoration:none"><span style="display:flex;align-items:center;justify-content:center;width:100%;background:#0A2E4A;padding:12px;border-radius:9px;transition:background .2s" style-hover="background:#00A4D5">Enquire</span></a>
+                  <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding-top:18px"><span style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:#0A2E4A;color:#fff;font-weight:700;font-size:14.5px;padding:12px;border-radius:9px;transition:background .2s" style-hover="background:#00A4D5">View details <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></div>
                 </div>
               </div>
             </sc-for>
