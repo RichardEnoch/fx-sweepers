@@ -512,7 +512,7 @@
           io.unobserve(s);
         }
       });
-    }, { rootMargin: '300px' });
+    }, { rootMargin: '1400px 0px' });
     slots.forEach(function(s){ s.dataset.fxLazy = '1'; s.dataset.fxIdx = String(i++); io.observe(s); });
   }
   function boot(){
@@ -967,7 +967,7 @@
             <span style="display:inline-flex;align-items:center;gap:8px;background:#EAF7E3;color:#4C9300;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;padding:7px 14px;border-radius:100px">We also supply the machines</span>
             <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:18px">Own the equipment behind the clean</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:18px">Beyond our managed sweeping service, FxSweepers sells the commercial cleaning machinery itself — ride-on sweepers, scrubber-driers and walk-behind units, with guidance on the right fit for your facility.</p>
-            <a href="#" onClick="{{ goEquipment }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:30px;background:#65C602;color:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:8px;text-decoration:none;box-shadow:0 8px 22px rgba(101,198,2,.28);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-2px)">Browse equipment <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="#" onClick="{{ goEquipment }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:30px;background:#65C602;color:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:8px;text-decoration:none;box-shadow:0 8px 22px rgba(101,198,2,.28);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-2px)">Browse the fleet <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
         </div>
       </section>
@@ -1260,7 +1260,7 @@
         <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,38,61,.55),rgba(8,38,61,.42) 40%,rgba(8,38,61,.9))"></div>
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 64px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-            <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Equipment for sale</span>
+            <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Our fleet · for sale</span>
             <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">The machines behind the clean</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:18px;max-width:560px">Own the same commercial-grade sweeping machinery we run. Enquiry-based pricing, expert guidance on the right fit.</p>
           </div>
@@ -1333,7 +1333,7 @@
             </sc-if>
             <sc-if value="{{ rfqFormOpen }}" hint-placeholder-val="{{ true }}">
             <form onSubmit="{{ submitRfq }}">
-              <h3 style="color:#0A2E4A;font-size:22px;font-weight:800;margin-bottom:18px">Equipment enquiry</h3>
+              <h3 style="color:#0A2E4A;font-size:22px;font-weight:800;margin-bottom:18px">Fleet enquiry</h3>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
                 <input required value="{{ rfq.name }}" onChange="{{ onRfq.name }}" placeholder="Full name" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
                 <input value="{{ rfq.company }}" onChange="{{ onRfq.company }}" placeholder="Company" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
@@ -1500,7 +1500,7 @@
           <span style="display:block;color:#C3D6E2;font-size:15px;padding:7px 0">Gas Stations & Forecourts</span>
           <span style="display:block;color:#C3D6E2;font-size:15px;padding:7px 0">Malls & Retail</span>
           <span style="display:block;color:#C3D6E2;font-size:15px;padding:7px 0">Estates & Complexes</span>
-          <span style="display:block;color:#C3D6E2;font-size:15px;padding:7px 0">Equipment Sales</span>
+          <span style="display:block;color:#C3D6E2;font-size:15px;padding:7px 0">Fleet sales</span>
         </div>
         <div>
           <h4 style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#5FB8DC;margin-bottom:20px;font-weight:700">Get in touch</h4>
@@ -1633,7 +1633,7 @@ class Component extends DCLogic {
       { key:'home', label:'Home' },
       { key:'about', label:'About' },
       { key:'services', label:'Services' },
-      { key:'equipment', label:'Equipment' },
+      { key:'equipment', label:'Our Fleet' },
       { key:'contact', label:'Contact' },
     ].map(n => ({
       label: n.label,
