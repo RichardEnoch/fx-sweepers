@@ -13,15 +13,15 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Light.woff2') format('woff2');font-weight:300;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-ExtraBold.woff2') format('woff2');font-weight:800;font-display:swap}
-  @font-face{font-family:'Mulish';src:url('assets/fonts/Mulish-Black.woff2') format('woff2');font-weight:900;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-Light.woff2') format('woff2');font-weight:300;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-ExtraBold.woff2') format('woff2');font-weight:800;font-display:swap}
+  @font-face{font-family:'Gilroy';src:url('assets/fonts/Gilroy-Black.woff2') format('woff2');font-weight:900;font-display:swap}
   html{scroll-behavior:smooth}
-  body{font-family:'Mulish','Outfit',sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:#0F1B24}
+  body{font-family:'Gilroy','Mulish',sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:#0F1B24}
   ::selection{background:#65C602;color:#fff}
   input,textarea,select,button{font-family:inherit}
   a{color:inherit}
@@ -41,12 +41,19 @@
   .eqm-ov.show .eqm{transform:scale(1)}
   .eqm-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(8,38,61,.55);color:#fff;border:none;cursor:pointer;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center}
   .eqm-imgs{background:#EEF5F9;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto}
-  .eqm-main{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;background:#dce8f0}
+  .eqm-stage{position:relative;width:100%;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:#dce8f0}
+  .eqm-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.2,.7,.2,1);touch-action:pan-y;cursor:grab}
+  .eqm-track.drag{transition:none;cursor:grabbing}
+  .eqm-slide{flex:0 0 100%;height:100%}
+  .eqm-slide img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none;user-select:none}
+  .eqm-nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(8,38,61,.5);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;opacity:.85;transition:opacity .2s,background .2s}
+  .eqm-nav:hover{opacity:1;background:rgba(8,38,61,.78)}
+  .eqm-nav.prev{left:10px}.eqm-nav.next{right:10px}
   .eqm-thumbs{display:flex;gap:10px;flex-wrap:wrap}
   .eqm-thumbs img{width:62px;height:62px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;background:#dce8f0}
   .eqm-thumbs img.act{border-color:#00A4D5}
   .eqm-body{padding:30px 30px 32px;overflow:auto}
-  .eqm-body h3{color:#0A2E4A;font-size:24px;font-weight:800;line-height:1.15}
+  .eqm-body h3{color:#0A2E4A;font-size:24px;font-weight:700;line-height:1.15}
   .eqm-model{color:#00A4D5;font-weight:700;font-size:12.5px;letter-spacing:.05em;margin-top:5px;display:block}
   .eqm-desc{color:#3C5566;font-size:15px;line-height:1.65;margin-top:16px}
   .eqm-specs{margin-top:22px;border-top:1px solid #E6F0F6}
@@ -55,7 +62,7 @@
   .eqm-specs .row .v{color:#0A2E4A;font-weight:600;text-align:right}
   .eqm-cta{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
   .eqm-cta a{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:14px 22px;border-radius:9px;text-decoration:none;color:#fff}
-  @media(max-width:760px){.eqm{grid-template-columns:1fr;max-height:92vh;overflow:auto}.eqm-main{aspect-ratio:16/11}.eqm-body{padding:24px}}
+  @media(max-width:760px){.eqm{grid-template-columns:1fr;max-height:92vh;overflow:auto}.eqm-stage{aspect-ratio:4/5}.eqm-body{padding:24px}}
   @keyframes mItem{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   [data-menu] .mlink{opacity:0;animation:mItem .5s cubic-bezier(.2,.7,.2,1) forwards}
   [data-menu] .mlink:nth-child(1){animation-delay:.08s}
@@ -650,7 +657,8 @@
 <!-- Equipment product DETAIL modal — content pulled live from fxsweepers-equipment-content.md -->
 <script>
 (function(){
-  var DATA=null, loadP=null, box=null;
+  var DATA=null, loadP=null, box=null, auto=null;
+  function stopAuto(){ if (auto){ clearInterval(auto); auto=null; } }
   function key(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]/g,''); }
   function ph(i){ return 'assets/ph/u'+((((i||0))%15)+1)+'.jpg'; }
   function loadMD(){
@@ -682,10 +690,13 @@
     if (box) return box;
     box = document.createElement('div'); box.className = 'eqm-ov';
     box.innerHTML = '<div class="eqm"><button class="eqm-close" aria-label="Close">&times;</button>'
-      + '<div class="eqm-imgs"><img class="eqm-main" alt=""><div class="eqm-thumbs"></div></div>'
+      + '<div class="eqm-imgs"><div class="eqm-stage"><div class="eqm-track"></div>'
+      + '<button class="eqm-nav prev" aria-label="Previous image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>'
+      + '<button class="eqm-nav next" aria-label="Next image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>'
+      + '</div><div class="eqm-thumbs"></div></div>'
       + '<div class="eqm-body"><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
     document.body.appendChild(box);
-    function hide(){ box.classList.remove('show'); setTimeout(function(){ box.style.display='none'; }, 300); }
+    function hide(){ stopAuto(); box.classList.remove('show'); setTimeout(function(){ box.style.display='none'; }, 300); }
     box.addEventListener('click', function(e){ if (e.target===box) hide(); });
     box.querySelector('.eqm-close').addEventListener('click', hide);
     document.addEventListener('keydown', function(e){ if (e.key==='Escape' && box.style.display==='flex') hide(); });
@@ -705,16 +716,44 @@
       row.appendChild(ke); row.appendChild(ve); specsEl.appendChild(row);
     });
     var list = (p.imgs && p.imgs.length) ? p.imgs.slice(0,5) : [null,null,null,null,null];
-    var main = b.querySelector('.eqm-main'), thumbs = b.querySelector('.eqm-thumbs'); thumbs.innerHTML='';
     function src(file,idx){ return file ? ('assets/products/'+file) : ph(idx); }
-    function setMain(file,idx){ main.onerror=function(){ main.onerror=null; main.src=ph(idx); }; main.src=src(file,idx); }
-    setMain(list[0],0);
+    var stage = b.querySelector('.eqm-stage');
+    var track = b.querySelector('.eqm-track'); track.innerHTML='';
+    var thumbs = b.querySelector('.eqm-thumbs'); thumbs.innerHTML='';
+    var n = list.length, index = 0;
     list.forEach(function(file,idx){
+      var sl=document.createElement('div'); sl.className='eqm-slide';
+      var im=document.createElement('img'); im.alt=''; im.onerror=function(){ im.onerror=null; im.src=ph(idx); }; im.src=src(file,idx);
+      sl.appendChild(im); track.appendChild(sl);
       var t=document.createElement('img'); t.onerror=function(){ t.onerror=null; t.src=ph(idx); }; t.src=src(file,idx);
       if (idx===0) t.className='act';
-      t.addEventListener('click', function(){ setMain(file,idx); thumbs.querySelectorAll('img').forEach(function(x){x.classList.remove('act');}); t.classList.add('act'); });
+      t.addEventListener('click', function(){ goTo(idx); restart(); });
       thumbs.appendChild(t);
     });
+    function goTo(i){
+      index = (i % n + n) % n;
+      track.style.transform = 'translateX(' + (-index*100) + '%)';
+      var ts = thumbs.querySelectorAll('img');
+      ts.forEach(function(x,xi){ x.classList.toggle('act', xi===index); });
+      if (ts[index]) ts[index].scrollIntoView({block:'nearest',inline:'nearest'});
+    }
+    goTo(0);
+    // Auto-advance every second; pause on hover, resume on leave.
+    function start(){ stopAuto(); if (n>1) auto = setInterval(function(){ if (box.style.display!=='flex'){ stopAuto(); return; } goTo(index+1); }, 1000); }
+    function restart(){ start(); }
+    start();
+    stage.onmouseenter = stopAuto;
+    stage.onmouseleave = function(){ if (box.style.display==='flex') start(); };
+    b.querySelector('.eqm-nav.prev').onclick = function(){ goTo(index-1); restart(); };
+    b.querySelector('.eqm-nav.next').onclick = function(){ goTo(index+1); restart(); };
+    // Drag / swipe (pointer + touch).
+    var dragX=0, dragging=false, moved=0;
+    function down(x){ dragging=true; dragX=x; moved=0; stopAuto(); track.classList.add('drag'); }
+    function move(x){ if(!dragging) return; moved = x - dragX; track.style.transform = 'translateX(calc(' + (-index*100) + '% + ' + moved + 'px))'; }
+    function up(){ if(!dragging) return; dragging=false; track.classList.remove('drag'); var w=stage.clientWidth||1; if (Math.abs(moved) > w*0.15) goTo(index + (moved<0?1:-1)); else goTo(index); start(); }
+    track.onpointerdown = function(e){ down(e.clientX); track.setPointerCapture && track.setPointerCapture(e.pointerId); };
+    track.onpointermove = function(e){ move(e.clientX); };
+    track.onpointerup = up; track.onpointercancel = up;
     var msg = encodeURIComponent('Hi FxSweepers, I would like to enquire about the ' + p.name + ' (' + p.model + ').');
     b.querySelector('.eqm-cta').innerHTML =
       '<a href="https://wa.me/2348000000000?text=' + msg + '" target="_blank" rel="noopener" style="background:#25D366">Enquire on WhatsApp</a>'
@@ -817,7 +856,7 @@
               <span style="width:8px;height:8px;border-radius:50%;background:#65C602;box-shadow:0 0 0 4px rgba(101,198,2,.25)"></span>
               <span style="color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em">Commercial Outdoor Sweeping · Nationwide</span>
             </div>
-            <h1 data-reveal="1" style="color:#fff;font-size:clamp(42px,6.4vw,84px);font-weight:800;line-height:1.02;letter-spacing:-.025em;opacity:0;transform:translateY(28px);transition:opacity .7s .05s cubic-bezier(.2,.7,.2,1),transform .7s .05s cubic-bezier(.2,.7,.2,1)">The Future of<br>Outdoor Sweeping</h1>
+            <h1 data-reveal="1" style="color:#fff;font-size:clamp(42px,6.4vw,84px);font-weight:700;line-height:1.02;letter-spacing:-.025em;opacity:0;transform:translateY(28px);transition:opacity .7s .05s cubic-bezier(.2,.7,.2,1),transform .7s .05s cubic-bezier(.2,.7,.2,1)">The Future of<br>Outdoor Sweeping</h1>
             <p data-reveal="1" style="color:#CFE4F0;font-size:clamp(17px,2vw,21px);line-height:1.65;margin-top:24px;max-width:580px;margin-left:auto;margin-right:auto;opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">A fleet of machine-powered sweepers delivering spotless, world-class results for gas stations, malls, estates and commercial spaces across Nigeria.</p>
             <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:38px;pointer-events:auto;opacity:0;transform:translateY(28px);transition:opacity .7s .15s cubic-bezier(.2,.7,.2,1),transform .7s .15s cubic-bezier(.2,.7,.2,1)">
               <a href="#" onClick="{{ goQuote }}" data-magnetic style="display:inline-flex;align-items:center;gap:10px;background:#65C602;color:#fff;font-weight:700;font-size:17px;padding:17px 32px;border-radius:8px;text-decoration:none;box-shadow:0 10px 30px rgba(101,198,2,.35);transition:transform .2s,background .2s" style-hover="background:#58AC00;transform:translateY(-3px)">Request a Quote
@@ -841,7 +880,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px">
           <div data-reveal="1" style="max-width:680px;margin-bottom:54px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">What we sweep</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Spotless results, at every scale</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Spotless results, at every scale</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.65;margin-top:18px">From busy fuel forecourts to sprawling estates, our sweeper fleet keeps high-traffic commercial spaces immaculate — quietly, efficiently and on schedule.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px">
@@ -873,10 +912,10 @@
           </div>
           <div style="display:flex;align-items:center;gap:38px;flex-wrap:wrap">
             <span style="color:#7C95A6;font-size:13px;font-weight:600;letter-spacing:.04em">Trusted across</span>
-            <span style="color:#9DB4C2;font-weight:800;font-size:18px;letter-spacing:-.01em">Gas Stations</span>
-            <span style="color:#9DB4C2;font-weight:800;font-size:18px;letter-spacing:-.01em">Shopping Malls</span>
-            <span style="color:#9DB4C2;font-weight:800;font-size:18px;letter-spacing:-.01em">Estates</span>
-            <span style="color:#9DB4C2;font-weight:800;font-size:18px;letter-spacing:-.01em">Industrial Parks</span>
+            <span style="color:#9DB4C2;font-weight:700;font-size:18px;letter-spacing:-.01em">Gas Stations</span>
+            <span style="color:#9DB4C2;font-weight:700;font-size:18px;letter-spacing:-.01em">Shopping Malls</span>
+            <span style="color:#9DB4C2;font-weight:700;font-size:18px;letter-spacing:-.01em">Estates</span>
+            <span style="color:#9DB4C2;font-weight:700;font-size:18px;letter-spacing:-.01em">Industrial Parks</span>
           </div>
         </div>
       </section>
@@ -886,7 +925,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,5vw,80px);align-items:center" data-split>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Who we are</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Cleaning infrastructure, not a cleaning crew</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Cleaning infrastructure, not a cleaning crew</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">FxSweepers is a commercial outdoor cleaning company built on a fleet of machine-powered sweepers. We deliver consistent, world-class results at a scale manual labour simply can't match — and we supply the machinery behind it.</p>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:16px">Eco-friendly by design, engineered for reliability, and ready for corporate contracts nationwide.</p>
             <a href="#" onClick="{{ goAbout }}" style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;color:#0A2E4A;font-weight:700;font-size:16px;text-decoration:none;border-bottom:2px solid #65C602;padding-bottom:4px" style-hover="color:#00A4D5">About FxSweepers <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
@@ -894,7 +933,7 @@
           <div data-reveal="1" style="position:relative;opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
             <image-slot id="fx-home-intro" shape="rounded" radius="20" fit="cover" placeholder="Drop a fleet / crew photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
             <div style="position:absolute;bottom:-26px;left:-26px;background:#00A4D5;color:#fff;padding:24px 30px;border-radius:16px;box-shadow:0 18px 40px rgba(0,164,213,.32);max-width:230px" data-floatcard>
-              <div style="font-size:40px;font-weight:800;line-height:1">100%</div>
+              <div style="font-size:40px;font-weight:700;line-height:1">100%</div>
               <div style="font-size:15px;font-weight:600;margin-top:4px;line-height:1.4">Electric-powered, zero-emission fleet</div>
             </div>
           </div>
@@ -909,14 +948,14 @@
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px">
           <div style="text-align:center;max-width:680px;margin:0 auto clamp(40px,5vw,58px)">
             <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">By the numbers</span>
-            <h2 style="color:#fff;font-size:clamp(32px,4.4vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Cleaning at a measurable scale</h2>
+            <h2 style="color:#fff;font-size:clamp(32px,4.4vw,52px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Cleaning at a measurable scale</h2>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;perspective:1200px">
             <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
               <div data-pop style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:34px 22px;text-align:center">
                 <div style="position:relative;width:132px;height:132px;margin:0 auto 18px">
                   <svg width="132" height="132" viewBox="0 0 120 120" style="position:absolute;inset:0"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/><circle cx="60" cy="60" r="52" fill="none" stroke="#65C602" stroke-width="7" stroke-linecap="round" stroke-dasharray="236 327" transform="rotate(-90 60 60)"/></svg>
-                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,3.2vw,40px);font-weight:800;color:#fff;letter-spacing:-.02em">
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,3.2vw,40px);font-weight:700;color:#fff;letter-spacing:-.02em">
                     <span data-counter data-target="{{ st.target }}">0</span><span style="color:#65C602">{{ st.suffix }}</span>
                   </div>
                 </div>
@@ -932,7 +971,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px">
           <div data-reveal="1" style="max-width:680px;margin-bottom:56px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">The Fx process</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Machine-powered, start to finish</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Machine-powered, start to finish</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.65;margin-top:18px">A disciplined, repeatable process that turns large commercial surfaces spotless — powered entirely by our fleet.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px">
@@ -940,7 +979,7 @@
               <div data-pop data-spotlight style="background:#fff;border:1px solid #E2EEF4;border-radius:16px;padding:34px 28px">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
                   <span style="width:54px;height:54px;border-radius:14px;background:#E1F5FF;color:#00A4D5;display:flex;align-items:center;justify-content:center">{{ p.icon }}</span>
-                  <span style="font-size:46px;font-weight:800;color:#E0EBF1;line-height:1">{{ p.num }}</span>
+                  <span style="font-size:46px;font-weight:700;color:#E0EBF1;line-height:1">{{ p.num }}</span>
                 </div>
                 <h3 style="color:#0A2E4A;font-size:21px;font-weight:700">{{ p.title }}</h3>
                 <p style="color:#5A7184;font-size:15.5px;line-height:1.65;margin-top:10px">{{ p.desc }}</p>
@@ -965,7 +1004,7 @@
           </div>
           <div data-reveal="1" style="order:1;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="display:inline-flex;align-items:center;gap:8px;background:#EAF7E3;color:#4C9300;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;padding:7px 14px;border-radius:100px">We also supply the machines</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:18px">Own the equipment behind the clean</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:18px">Own the equipment behind the clean</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:18px">Beyond our managed sweeping service, FxSweepers sells the commercial cleaning machinery itself — ride-on sweepers, scrubber-driers and walk-behind units, with guidance on the right fit for your facility.</p>
             <a href="#" onClick="{{ goEquipment }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:30px;background:#65C602;color:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:8px;text-decoration:none;box-shadow:0 8px 22px rgba(101,198,2,.28);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-2px)">Browse the fleet <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
@@ -977,7 +1016,7 @@
         <div style="max-width:880px;margin:0 auto;padding:0 32px">
           <div data-reveal="1" style="text-align:center;margin-bottom:44px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">FAQ</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Questions, answered</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(32px,4.4vw,52px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Questions, answered</h2>
           </div>
           <div class="faq" data-reveal="1" style="opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)"><button type="button" class="faqq">Where do you operate?</button><div class="faqa"><div><p>Nationwide across Nigeria — all 36 states and the FCT. Tell us your locations and we'll plan coverage for single sites or multi-location portfolios.</p></div></div></div>
           <div class="faq" data-reveal="1" style="opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)"><button type="button" class="faqq">Do you also sell the cleaning machines?</button><div class="faqa"><div><p>Yes. Beyond our managed sweeping service, we supply commercial machinery — ride-on sweepers, scrubber-driers and walk-behind units — with guidance on the right fit for your facility.</p></div></div></div>
@@ -994,7 +1033,7 @@
         <div style="position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px);align-items:center" data-split>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Partner with us</span>
-            <h2 style="color:#fff;font-size:clamp(32px,4.2vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Let's keep your spaces spotless</h2>
+            <h2 style="color:#fff;font-size:clamp(32px,4.2vw,50px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Let's keep your spaces spotless</h2>
             <p style="color:#D5EAF4;font-size:18px;line-height:1.7;margin-top:18px">Tell us about your facility and we'll put together a tailored sweeping proposal — typically within one business day.</p>
             <div style="display:flex;align-items:center;gap:13px;margin-top:30px">
               <span style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff;flex:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
@@ -1005,13 +1044,13 @@
             <sc-if value="{{ leadSent }}" hint-placeholder-val="{{ false }}">
               <div style="text-align:center;padding:30px 10px">
                 <span style="width:64px;height:64px;border-radius:50%;background:#EAF7E3;color:#65C602;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px"><svg class="fx-check-anim" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                <h3 style="color:#0A2E4A;font-size:24px;font-weight:800">Thank you!</h3>
+                <h3 style="color:#0A2E4A;font-size:24px;font-weight:700">Thank you!</h3>
                 <p style="color:#5A7184;font-size:16px;line-height:1.6;margin-top:10px">Your enquiry is on its way to our team. We'll be in touch within one business day.</p>
               </div>
             </sc-if>
             <sc-if value="{{ leadFormOpen }}" hint-placeholder-val="{{ true }}">
             <form onSubmit="{{ submitLead }}">
-              <h3 style="color:#0A2E4A;font-size:22px;font-weight:800;margin-bottom:20px">Request a Quote</h3>
+              <h3 style="color:#0A2E4A;font-size:22px;font-weight:700;margin-bottom:20px">Request a Quote</h3>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
                 <input required value="{{ lead.name }}" onChange="{{ onLead.name }}" placeholder="Full name" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
                 <input value="{{ lead.company }}" onChange="{{ onLead.company }}" placeholder="Company" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
@@ -1043,7 +1082,7 @@
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 64px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#7FD0EC;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">About FxSweepers</span>
-            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Sweeping Nigeria forward</h1>
+            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:700;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Sweeping Nigeria forward</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:18px;max-width:560px">A modern cleaning company on a mission to bring the Nigerian outdoor-cleaning industry to a world-class stage.</p>
           </div>
         </div>
@@ -1054,7 +1093,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,5vw,80px);align-items:center" data-split>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Who we are</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">A registered company built for scale</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:14px">A registered company built for scale</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">FxSweepers is a registered limited liability company providing commercial outdoor sweeping nationwide. We operate a fleet of machine-powered sweepers — treating cleaning as infrastructure, delivered to a consistent, measurable standard.</p>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:16px">From a single forecourt to a portfolio of estates and malls, we have the equipment, the process and the reach to keep your spaces immaculate.</p>
           </div>
@@ -1069,7 +1108,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,5vw,80px);align-items:center" data-split>
           <div data-reveal="1" style="order:2;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">What we do</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Machine-powered sweeping & equipment sales</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Machine-powered sweeping & equipment sales</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:20px">Two sides of the same expertise. We run managed sweeping contracts across commercial spaces, and we supply the commercial machinery — ride-on sweepers, scrubber-driers and walk-behind units — to organizations that want to clean in-house.</p>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:16px">Either way, the result is the same: world-class clean, powered by machines, not manual labour.</p>
           </div>
@@ -1087,7 +1126,7 @@
           </div>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Why FxSweepers</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px;margin-bottom:14px">Built different, by design</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:14px;margin-bottom:14px">Built different, by design</h2>
             <sc-for list="{{ whyPoints }}" as="w" hint-placeholder-count="5">
               <div style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #E2EEF4">
                 <span style="width:30px;height:30px;border-radius:50%;background:#65C602;display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
@@ -1106,14 +1145,14 @@
         <div style="position:absolute;inset:0;background:radial-gradient(90% 130% at 80% 10%,rgba(0,164,213,.3),transparent 55%)"></div>
         <div data-reveal="1" style="position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:0 32px;text-align:center;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
           <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Our mission</span>
-          <p style="color:#fff;font-size:clamp(28px,4.4vw,52px);font-weight:800;line-height:1.18;letter-spacing:-.02em;margin-top:22px">To bring the Nigerian cleaning industry to a <span style="color:#65C602">world-class stage</span> — one spotless space at a time.</p>
+          <p style="color:#fff;font-size:clamp(28px,4.4vw,52px);font-weight:700;line-height:1.18;letter-spacing:-.02em;margin-top:22px">To bring the Nigerian cleaning industry to a <span style="color:#65C602">world-class stage</span> — one spotless space at a time.</p>
         </div>
       </section>
 
       <!-- CTA -->
       <section style="background:#fff;padding:clamp(70px,8vw,110px) 0">
         <div data-reveal="1" style="max-width:1100px;margin:0 auto;padding:clamp(40px,5vw,64px);background:linear-gradient(120deg,#00A4D5,#0A2E4A);border-radius:24px;text-align:center;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-          <h2 style="color:#fff;font-size:clamp(28px,3.8vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.02em">Ready to raise your cleaning standard?</h2>
+          <h2 style="color:#fff;font-size:clamp(28px,3.8vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.02em">Ready to raise your cleaning standard?</h2>
           <p style="color:#CFE4F0;font-size:18px;line-height:1.6;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto">Let's talk about keeping your spaces spotless — get a tailored proposal in one business day.</p>
           <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px">
             <a href="#" onClick="{{ goQuote }}" style="display:inline-flex;align-items:center;gap:9px;background:#65C602;color:#fff;font-weight:700;font-size:17px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 10px 28px rgba(101,198,2,.35);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-3px)">Request a Quote <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
@@ -1136,7 +1175,7 @@
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 64px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#7FD0EC;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Our services</span>
-            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Any space, any scale</h1>
+            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:700;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Any space, any scale</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:18px;max-width:560px">One electric fleet, one consistent standard — across every kind of commercial outdoor space in Nigeria.</p>
           </div>
         </div>
@@ -1156,8 +1195,8 @@
           <div>
             <sc-for list="{{ serviceRows }}" as="r" hint-placeholder-count="5">
               <div data-svc-step style="min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0">
-                <span style="font-size:13px;font-weight:800;color:#00A4D5;letter-spacing:.12em">{{ r.tag }}</span>
-                <h3 style="color:#0A2E4A;font-size:clamp(28px,3.6vw,46px);font-weight:800;letter-spacing:-.015em;margin-top:8px">{{ r.title }}</h3>
+                <span style="font-size:13px;font-weight:700;color:#00A4D5;letter-spacing:.12em">{{ r.tag }}</span>
+                <h3 style="color:#0A2E4A;font-size:clamp(28px,3.6vw,46px);font-weight:700;letter-spacing:-.015em;margin-top:8px">{{ r.title }}</h3>
                 <p style="color:#5A7184;font-size:17px;line-height:1.7;margin-top:14px;max-width:440px">{{ r.desc }}</p>
                 <a href="#" onClick="{{ goQuote }}" data-magnetic style="display:inline-flex;align-items:center;gap:9px;margin-top:26px;background:#65C602;color:#fff;font-weight:700;font-size:15px;padding:13px 24px;border-radius:8px;text-decoration:none;width:fit-content;box-shadow:0 8px 22px rgba(101,198,2,.28);transition:background .2s" style-hover="background:#58AC00">Get a quote <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
               </div>
@@ -1170,10 +1209,10 @@
             <div data-reveal="1" style="background:#fff;border:1px solid #E6F0F6;border-radius:18px;overflow:hidden;box-shadow:0 6px 22px rgba(8,38,61,.08);margin-bottom:24px;opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)">
               <div style="position:relative;aspect-ratio:4/5;background:#0A2E4A">
                 <image-slot id="{{ r.slot }}m" src="{{ r.img }}" shape="rect" fit="cover" placeholder="{{ r.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
-                <span style="position:absolute;top:14px;left:14px;background:rgba(8,38,61,.72);backdrop-filter:blur(4px);color:#fff;font-size:12px;font-weight:800;letter-spacing:.08em;padding:5px 11px;border-radius:100px">{{ r.tag }}</span>
+                <span style="position:absolute;top:14px;left:14px;background:rgba(8,38,61,.72);backdrop-filter:blur(4px);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;padding:5px 11px;border-radius:100px">{{ r.tag }}</span>
               </div>
               <div style="padding:22px 22px 26px">
-                <h3 style="color:#0A2E4A;font-size:22px;font-weight:800;letter-spacing:-.01em">{{ r.title }}</h3>
+                <h3 style="color:#0A2E4A;font-size:22px;font-weight:700;letter-spacing:-.01em">{{ r.title }}</h3>
                 <p style="color:#5A7184;font-size:15.5px;line-height:1.65;margin-top:10px">{{ r.desc }}</p>
                 <a href="#" onClick="{{ goQuote }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#65C602;color:#fff;font-weight:700;font-size:15px;padding:13px 22px;border-radius:8px;text-decoration:none;box-shadow:0 8px 22px rgba(101,198,2,.28)">Get a quote <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
               </div>
@@ -1189,13 +1228,13 @@
               <sc-if value="{{ quoteSent }}" hint-placeholder-val="{{ false }}">
                 <div style="text-align:center;padding:24px 6px">
                   <span style="width:60px;height:60px;border-radius:50%;background:rgba(101,198,2,.2);color:#9FE85F;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px"><svg class="fx-check-anim" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                  <h3 style="color:#fff;font-size:22px;font-weight:800">Request received</h3>
+                  <h3 style="color:#fff;font-size:22px;font-weight:700">Request received</h3>
                   <p style="color:#9CC0D4;font-size:15px;line-height:1.6;margin-top:8px">We'll reply with a tailored proposal within one business day.</p>
                 </div>
               </sc-if>
               <sc-if value="{{ quoteFormOpen }}" hint-placeholder-val="{{ true }}">
               <form onSubmit="{{ submitQuote }}">
-                <h3 style="color:#fff;font-size:22px;font-weight:800">Get a quote</h3>
+                <h3 style="color:#fff;font-size:22px;font-weight:700">Get a quote</h3>
                 <p style="color:#9CC0D4;font-size:14.5px;line-height:1.5;margin-top:6px;margin-bottom:20px">Tell us about your site and we'll do the rest.</p>
                 <input required value="{{ quote.name }}" onChange="{{ onQuote.name }}" placeholder="Full name" style="width:100%;padding:13px 15px;border:1.5px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);border-radius:9px;font-size:15px;color:#fff;outline:none;margin-bottom:11px;transition:border-color .2s" style-focus="border-color:#65C602">
                 <input value="{{ quote.company }}" onChange="{{ onQuote.company }}" placeholder="Company" style="width:100%;padding:13px 15px;border:1.5px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);border-radius:9px;font-size:15px;color:#fff;outline:none;margin-bottom:11px;transition:border-color .2s" style-focus="border-color:#65C602">
@@ -1221,7 +1260,7 @@
         <div style="max-width:1280px;margin:0 auto;padding:0 32px">
           <div data-reveal="1" style="max-width:680px;margin-bottom:48px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Specialty · Machine & process</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4.2vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Watch the machines at work</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4.2vw,50px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Watch the machines at work</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.65;margin-top:18px">See our sweeping equipment and the full cleaning process up close — the clearest way to understand the Fx difference.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
@@ -1238,7 +1277,7 @@
       <!-- CTA -->
       <section style="background:#fff;padding:clamp(70px,8vw,110px) 0">
         <div data-reveal="1" style="max-width:1100px;margin:0 auto;padding:clamp(40px,5vw,64px);background:linear-gradient(120deg,#00A4D5,#0A2E4A);border-radius:24px;text-align:center;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-          <h2 style="color:#fff;font-size:clamp(28px,3.8vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.02em">Tell us what you need swept</h2>
+          <h2 style="color:#fff;font-size:clamp(28px,3.8vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.02em">Tell us what you need swept</h2>
           <p style="color:#CFE4F0;font-size:18px;line-height:1.6;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto">From a single forecourt to a national portfolio — we'll build the right plan.</p>
           <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px">
             <a href="#" onClick="{{ goQuote }}" style="display:inline-flex;align-items:center;gap:9px;background:#65C602;color:#fff;font-weight:700;font-size:17px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 10px 28px rgba(101,198,2,.35);transition:background .2s,transform .2s" style-hover="background:#58AC00;transform:translateY(-3px)">Request a Quote <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
@@ -1261,7 +1300,7 @@
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 64px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#9FE85F;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Our fleet · for sale</span>
-            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">The machines behind the clean</h1>
+            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,72px);font-weight:700;line-height:1.04;letter-spacing:-.025em;margin-top:14px">The machines behind the clean</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:18px;max-width:560px">Own the same commercial-grade sweeping machinery we run. Enquiry-based pricing, expert guidance on the right fit.</p>
           </div>
         </div>
@@ -1273,7 +1312,7 @@
           <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px;margin-bottom:46px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <div style="max-width:620px">
               <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">The catalogue</span>
-              <h2 style="color:#0A2E4A;font-size:clamp(30px,4.2vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Commercial sweeping machinery</h2>
+              <h2 style="color:#0A2E4A;font-size:clamp(30px,4.2vw,50px);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin-top:14px">Commercial sweeping machinery</h2>
             </div>
             <span style="color:#5A7184;font-size:15px;line-height:1.5;max-width:300px">16 machines across 5 categories — enquiry-based, so we can match you to the right unit.</span>
           </div>
@@ -1296,7 +1335,7 @@
                   </sc-if>
                 </div>
                 <div style="display:flex;flex-direction:column;flex:1;padding:20px 20px 22px">
-                  <h3 style="color:#0A2E4A;font-size:18.5px;font-weight:800;line-height:1.2">{{ e.name }}</h3>
+                  <h3 style="color:#0A2E4A;font-size:18.5px;font-weight:700;line-height:1.2">{{ e.name }}</h3>
                   <span style="color:#00A4D5;font-size:12.5px;font-weight:700;letter-spacing:.04em;margin-top:3px">{{ e.model }}</span>
                   <p style="color:#5A7184;font-size:13.5px;line-height:1.55;margin-top:10px">{{ e.blurb }}</p>
                   <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
@@ -1315,7 +1354,7 @@
         <div style="max-width:1100px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px);align-items:center" data-split>
           <div data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Request pricing</span>
-            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Request equipment pricing</h2>
+            <h2 style="color:#0A2E4A;font-size:clamp(30px,4vw,46px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-top:14px">Request equipment pricing</h2>
             <p style="color:#3C5566;font-size:18px;line-height:1.7;margin-top:18px">Tell us which machine you're interested in and a little about your facility. We'll send pricing and a recommendation tailored to how you'll use it.</p>
             <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px">
               <div style="display:flex;align-items:center;gap:12px;color:#0A2E4A;font-weight:600;font-size:16px"><span style="width:30px;height:30px;border-radius:50%;background:#65C602;display:flex;align-items:center;justify-content:center;flex:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Expert fit guidance</div>
@@ -1327,13 +1366,13 @@
             <sc-if value="{{ rfqSent }}" hint-placeholder-val="{{ false }}">
               <div style="text-align:center;padding:28px 8px">
                 <span style="width:62px;height:62px;border-radius:50%;background:#EAF7E3;color:#65C602;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px"><svg class="fx-check-anim" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                <h3 style="color:#0A2E4A;font-size:23px;font-weight:800">Enquiry sent</h3>
+                <h3 style="color:#0A2E4A;font-size:23px;font-weight:700">Enquiry sent</h3>
                 <p style="color:#5A7184;font-size:16px;line-height:1.6;margin-top:8px">We'll send pricing and a recommendation shortly.</p>
               </div>
             </sc-if>
             <sc-if value="{{ rfqFormOpen }}" hint-placeholder-val="{{ true }}">
             <form onSubmit="{{ submitRfq }}">
-              <h3 style="color:#0A2E4A;font-size:22px;font-weight:800;margin-bottom:18px">Fleet enquiry</h3>
+              <h3 style="color:#0A2E4A;font-size:22px;font-weight:700;margin-bottom:18px">Fleet enquiry</h3>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
                 <input required value="{{ rfq.name }}" onChange="{{ onRfq.name }}" placeholder="Full name" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
                 <input value="{{ rfq.company }}" onChange="{{ onRfq.company }}" placeholder="Company" style="width:100%;padding:13px 15px;border:1.5px solid #DCE8EF;border-radius:9px;font-size:15px;color:#0A2E4A;outline:none;transition:border-color .2s" style-focus="border-color:#65C602">
@@ -1373,7 +1412,7 @@
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px 56px;width:100%">
           <div data-reveal="1" style="max-width:720px;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="color:#7FD0EC;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Contact</span>
-            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,68px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Let's talk</h1>
+            <h1 style="color:#fff;font-size:clamp(38px,5.6vw,68px);font-weight:700;line-height:1.04;letter-spacing:-.025em;margin-top:14px">Let's talk</h1>
             <p style="color:#CFE4F0;font-size:clamp(17px,2vw,20px);line-height:1.6;margin-top:16px;max-width:540px">Service enquiry or equipment purchase — tell us what you need and the right person will get back to you.</p>
           </div>
         </div>
@@ -1386,13 +1425,13 @@
             <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
               <div style="background:#F2F8FB;border:1px solid #E2EEF4;border-radius:20px;padding:48px 36px;text-align:center">
                 <span style="width:68px;height:68px;border-radius:50%;background:#EAF7E3;color:#65C602;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px"><svg class="fx-check-anim" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                <h3 style="color:#0A2E4A;font-size:26px;font-weight:800">Message sent</h3>
+                <h3 style="color:#0A2E4A;font-size:26px;font-weight:700">Message sent</h3>
                 <p style="color:#5A7184;font-size:16px;line-height:1.6;margin-top:10px;max-width:380px;margin-left:auto;margin-right:auto">Thanks for reaching out. We'll route your enquiry to the right team and reply within one business day.</p>
               </div>
             </sc-if>
             <sc-if value="{{ contactFormOpen }}" hint-placeholder-val="{{ true }}">
             <form onSubmit="{{ submitContact }}">
-              <h2 style="color:#0A2E4A;font-size:clamp(26px,3vw,34px);font-weight:800;letter-spacing:-.01em;margin-bottom:8px">Send us a message</h2>
+              <h2 style="color:#0A2E4A;font-size:clamp(26px,3vw,34px);font-weight:700;letter-spacing:-.01em;margin-bottom:8px">Send us a message</h2>
               <p style="color:#5A7184;font-size:16px;margin-bottom:24px">Fields marked are required. We'll never share your details.</p>
               <div style="margin-bottom:18px">
                 <label style="display:block;color:#0A2E4A;font-weight:600;font-size:14px;margin-bottom:9px">What is this about?</label>
@@ -1417,7 +1456,7 @@
 
           <aside data-reveal="1" style="opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
             <div style="background:#0A2E4A;border-radius:20px;padding:clamp(28px,3.2vw,38px);color:#fff">
-              <h3 style="font-size:22px;font-weight:800;margin-bottom:24px">Get in touch directly</h3>
+              <h3 style="font-size:22px;font-weight:700;margin-bottom:24px">Get in touch directly</h3>
               <a href="tel:+2348000000000" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)">
                 <span style="width:42px;height:42px;border-radius:11px;background:rgba(0,164,213,.2);color:#5FB8DC;display:flex;align-items:center;justify-content:center;flex:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
                 <span><span style="display:block;font-size:12.5px;color:#9CC0D4;font-weight:600">Phone</span><span style="font-size:17px;font-weight:700">0800 000 0000</span></span>
@@ -1447,7 +1486,7 @@
       <section style="background:#F2F8FB;border-top:1px solid #E6F0F6;padding:clamp(56px,7vw,90px) 0">
         <div data-reveal="1" style="max-width:1280px;margin:0 auto;padding:0 32px;text-align:center;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
           <span style="color:#00A4D5;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px">Where we work</span>
-          <h2 style="color:#0A2E4A;font-size:clamp(26px,3.4vw,40px);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-top:12px;max-width:680px;margin-left:auto;margin-right:auto">Serving commercial spaces across all 36 states and the FCT</h2>
+          <h2 style="color:#0A2E4A;font-size:clamp(26px,3.4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-top:12px;max-width:680px;margin-left:auto;margin-right:auto">Serving commercial spaces across all 36 states and the FCT</h2>
           <p style="color:#5A7184;font-size:17px;line-height:1.6;margin-top:14px;max-width:520px;margin-left:auto;margin-right:auto">Wherever your sites are in Nigeria, our fleet can reach them. Tell us your locations and we'll plan the coverage.</p>
         </div>
       </section>
@@ -1514,7 +1553,7 @@
         <p style="color:#7A98AB;font-size:13.5px">Bringing the Nigerian cleaning industry to a world-class stage.</p>
       </div>
       </div><!-- /content (sits ABOVE the wordmark) -->
-      <div aria-hidden="true" style="position:relative;z-index:1;text-align:center;font-weight:800;font-size:clamp(58px,16vw,236px);line-height:.78;letter-spacing:-.045em;white-space:nowrap;overflow:hidden;padding:0 8px;background:linear-gradient(180deg,rgba(150,210,255,.18),rgba(150,210,255,.015));-webkit-background-clip:text;background-clip:text;color:transparent">FxSweepers</div>
+      <div aria-hidden="true" style="position:relative;z-index:1;text-align:center;font-weight:700;font-size:clamp(58px,16vw,236px);line-height:.78;letter-spacing:-.045em;white-space:nowrap;overflow:hidden;padding:0 8px;background:linear-gradient(180deg,rgba(150,210,255,.18),rgba(150,210,255,.015));-webkit-background-clip:text;background-clip:text;color:transparent">FxSweepers</div>
     </div><!-- /rounded card -->
   </footer>
 
