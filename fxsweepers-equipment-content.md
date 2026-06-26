@@ -76,8 +76,7 @@ A step up in reach and endurance, the YX-16A widens the sweep path to 1.6 m and 
 - Control: intelligent, timed dust-shaking · 4-way LED · HD reverse camera
 - Dimensions: 1,800 × 1,580 × 2,000 mm
 
-**Images:** `yx-16a-default.jpg` · `yx-16a-angle-1.jpg` · `yx-16a-angle-2.jpg` · `yx-16a-angle-3.jpg`
-
+**Images:** `yx-16a-default.jpg` · `yx-16a-angle-1.jpg` · `yx-16a-angle-2.jpg` · `yx-16a-angle-3.jpg` · `yx-16a-angle-4.jpg`
 ---
 
 # 3. Enclosed 5-Brush Sweeper
@@ -103,8 +102,7 @@ The Model D brings five brushes and a weather-sealed cab to the range. A 1.9 m s
 - Weight: 700 kg
 - Dimensions: 2,500 × 1,900 × 2,300 mm
 
-**Images:** `model-d-default.jpg` · `model-d-angle-1.jpg` · `model-d-angle-2.jpg` · `model-d-angle-3.jpg`
-
+**Images:** `model-d-default.jpg` · `model-d-angle-1.jpg` · `model-d-angle-2.jpg` · `model-d-angle-3.jpg` · `model-d-angle-4.jpg`
 ---
 
 # 4. Enclosed 5-Brush Sweeper Plus
@@ -129,8 +127,7 @@ The Model D Plus keeps the 1.9 m sweep path and efficiency of the Model D but in
 - Weight: 700 kg
 - Dimensions: 2,650 × 2,200 × 2,150 mm
 
-**Images:** `model-d-plus-default.jpg` · `model-d-plus-angle-1.jpg` · `model-d-plus-angle-2.jpg` · `model-d-plus-angle-3.jpg`
-
+**Images:** `model-d-plus-default.jpg` · `model-d-plus-angle-1.jpg` · `model-d-plus-angle-2.jpg` · `model-d-plus-angle-3.jpg` · `model-d-plus-angle-4.jpg`
 ---
 
 # 5. Wolf Warrior 3
@@ -158,8 +155,7 @@ Built for scale, the Wolf Warrior 3 extends its sweep path from 1.5 to 2.3 m and
 - Dimensions: 2,900 × 2,300 × 2,500 mm
 - ⚠ Verify: water-tank capacity (catalogue figure unclear)
 
-**Images:** `wolf-warrior-3-default.jpg` · `wolf-warrior-3-angle-1.jpg` · `wolf-warrior-3-angle-2.jpg` · `wolf-warrior-3-angle-3.jpg`
-
+**Images:** `wolf-warrior-3-default.jpg` · `wolf-warrior-3-angle-1.jpg` · `wolf-warrior-3-angle-2.jpg` · `wolf-warrior-3-angle-3.jpg` · `wolf-warrior-3-angle-4.jpg`
 ---
 
 # 6. Wolf Warrior 3 Plus
@@ -186,8 +182,7 @@ The Plus takes the Wolf Warrior platform and reinforces it for the largest, most
 - Weight: 1,000 kg
 - Dimensions: 3,100 × 2,300 × 2,300 mm
 
-**Images:** `wolf-warrior-3-plus-default.jpg` · `wolf-warrior-3-plus-angle-1.jpg` · `wolf-warrior-3-plus-angle-2.jpg` · `wolf-warrior-3-plus-angle-3.jpg`
-
+**Images:** `wolf-warrior-3-plus-default.jpg` · `wolf-warrior-3-plus-angle-1.jpg` · `wolf-warrior-3-plus-angle-2.jpg` · `wolf-warrior-3-plus-angle-3.jpg` · `wolf-warrior-3-plus-angle-4.jpg`
 ---
 
 # 7. Vacuum + Flushing Sweeper
@@ -216,8 +211,7 @@ The SR/LH-A1 combines automatic sweeping, negative-pressure vacuum suction and a
 - Dimensions: 2,450 × 2,000 × 2,150 mm
 - ⚠ Verify: water-tank capacity (catalogue figure unclear)
 
-**Images:** `srlh-a1-default.jpg` · `srlh-a1-angle-1.jpg` · `srlh-a1-angle-2.jpg` · `srlh-a1-angle-3.jpg`
-
+**Images:** `srlh-a1-default.jpg` · `srlh-a1-angle-1.jpg` · `srlh-a1-angle-2.jpg` · `srlh-a1-angle-3.jpg` · `srlh-a1-angle-4.jpg`
 ---
 
 # 8. Hurricane No.1 Bucket Sweeper
@@ -246,8 +240,7 @@ The Hurricane No.1 leads the bucket-sweeper line. Its front brush auto-expands f
 - Dimensions: 3,600 × 2,200 × 2,260 mm
 - ⚠ Verify: water-tank capacity (catalogue figure unclear)
 
-**Images:** `hurricane-sr2200-default.jpg` · `hurricane-sr2200-angle-1.jpg` · `hurricane-sr2200-angle-2.jpg` · `hurricane-sr2200-angle-3.jpg`
-
+**Images:** `hurricane-sr2200-default.jpg` · `hurricane-sr2200-angle-1.jpg` · `hurricane-sr2200-angle-2.jpg` · `hurricane-sr2200-angle-3.jpg` · `hurricane-sr2200-angle-4.jpg`
 ---
 
 # 9. Cleaning King
@@ -274,8 +267,7 @@ The Cleaning King is the flagship of the heavy-duty range. A freely telescopic 1
 - Weight: 1,550 kg
 - Dimensions: 3,630 × 2,500 × 2,600 mm
 
-**Images:** `cleaning-king-default.jpg` · `cleaning-king-angle-1.jpg` · `cleaning-king-angle-2.jpg` · `cleaning-king-angle-3.jpg`
-
+**Images:** `cleaning-king-default.jpg` · `cleaning-king-angle-1.jpg` · `cleaning-king-angle-2.jpg` · `cleaning-king-angle-3.jpg` · `cleaning-king-angle-4.jpg`
 ---
 
 # 10. 4-Wheel Bucket-Mounted Sweeper
@@ -302,8 +294,7 @@ A stable four-wheel platform with a 1.5–2.3 m sweep path and large water capac
 - Weight: 1,500 kg
 - Dimensions: 3,900 × 2,300 × 2,600 mm
 
-**Images:** `four-wheel-240l-default.jpg` · `four-wheel-240l-angle-1.jpg` · `four-wheel-240l-angle-2.jpg` · `four-wheel-240l-angle-3.jpg`
-
+**Images:** `four-wheel-240l-default.jpg` · `four-wheel-240l-angle-1.jpg` · `four-wheel-240l-angle-2.jpg` · `four-wheel-240l-angle-3.jpg` · `four-wheel-240l-angle-4.jpg`
 ---
 
 # 11. 5-Brush Sweeper (G21A)
@@ -333,8 +324,7 @@ The YX-G21A adds a 2.1 m five-brush sweep path and a full high-pressure water sy
 - Control: intelligent, timed dust-shaking · 4-way LED
 - Dimensions: 2,300 × 2,100 × 2,100 mm
 
-**Images:** `yx-g21a-default.jpg` · `yx-g21a-angle-1.jpg` · `yx-g21a-angle-2.jpg` · `yx-g21a-angle-3.jpg`
-
+**Images:** `yx-g21a-default.jpg` · `yx-g21a-angle-1.jpg` · `yx-g21a-angle-2.jpg` · `yx-g21a-angle-3.jpg` · `yx-g21a-angle-4.jpg`
 ---
 
 # 12. Wide 5-Brush Sweeper (G25)
@@ -364,8 +354,7 @@ The YX-G25 widens the path to 2.5 m and lifts efficiency to 35,000 m²/h. Availa
 - Control: intelligent, timed dust-shaking · HD reverse camera
 - Dimensions: 3,500 × 2,500 × 2,730 mm
 
-**Images:** `yx-g25-default.jpg` · `yx-g25-angle-1.jpg` · `yx-g25-angle-2.jpg` · `yx-g25-angle-3.jpg`
-
+**Images:** `yx-g25-default.jpg` · `yx-g25-angle-1.jpg` · `yx-g25-angle-2.jpg` · `yx-g25-angle-3.jpg` · `yx-g25-angle-4.jpg`
 ---
 
 # 13. 5-Brush Sweeper (240L)
@@ -395,8 +384,7 @@ The YX-240L pairs a 2.45 m five-brush path with a quicker 0–18 km/h travel spe
 - Control: intelligent, timed dust-shaking · HD reverse camera
 - Dimensions: 3,660 × 2,400 × 2,200 mm
 
-**Images:** `yx-240l-default.jpg` · `yx-240l-angle-1.jpg` · `yx-240l-angle-2.jpg` · `yx-240l-angle-3.jpg`
-
+**Images:** `yx-240l-default.jpg` · `yx-240l-angle-1.jpg` · `yx-240l-angle-2.jpg` · `yx-240l-angle-3.jpg` · `yx-240l-angle-4.jpg`
 ---
 
 # 14. Single-Dustbin Sweeper
@@ -425,8 +413,7 @@ On a 60V lithium platform, the Single-Dustbin G25 travels at up to 20 km/h and c
 - Dimensions: 3,800 × 2,450 × 2,200 mm
 - ⚠ Verify: filtration area (catalogue figure unclear)
 
-**Images:** `yx-g25-single-default.jpg` · `yx-g25-single-angle-1.jpg` · `yx-g25-single-angle-2.jpg` · `yx-g25-single-angle-3.jpg`
-
+**Images:** `yx-g25-single-default.jpg` · `yx-g25-single-angle-1.jpg` · `yx-g25-single-angle-2.jpg` · `yx-g25-single-angle-3.jpg` · `yx-g25-single-angle-4.jpg`
 ---
 
 # 15. Double-Dustbin Sweeper
@@ -455,8 +442,7 @@ The Double-Dustbin G25 doubles capacity for the longest continuous routes: a 480
 - Dimensions: 4,050 × 2,450 × 2,300 mm
 - ⚠ Verify: filtration area (catalogue figure unclear)
 
-**Images:** `yx-g25-double-default.jpg` · `yx-g25-double-angle-1.jpg` · `yx-g25-double-angle-2.jpg` · `yx-g25-double-angle-3.jpg`
-
+**Images:** `yx-g25-double-default.jpg` · `yx-g25-double-angle-1.jpg` · `yx-g25-double-angle-2.jpg` · `yx-g25-double-angle-3.jpg` · `yx-g25-double-angle-4.jpg`
 ---
 
 # 16. European Pure-Suction Sweeper
@@ -485,8 +471,7 @@ The flagship of the range, the YX-5C is a four-wheel, two-seat European-style sw
 - Net weight: 1,680 kg
 - Dimensions: 4,300 × 2,100 × 2,350 mm · wheelbase 1,140 mm · ground clearance 130 mm
 
-**Images:** `yx-5c-default.jpg` · `yx-5c-angle-1.jpg` · `yx-5c-angle-2.jpg` · `yx-5c-angle-3.jpg`
-
+**Images:** `yx-5c-default.jpg` · `yx-5c-angle-1.jpg` · `yx-5c-angle-2.jpg` · `yx-5c-angle-3.jpg` · `yx-5c-angle-4.jpg`
 ---
 
 ## Build notes
