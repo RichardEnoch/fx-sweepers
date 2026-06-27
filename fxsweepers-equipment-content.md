@@ -24,7 +24,7 @@
 - **Model:** YX-1360A
 - **Slug:** `yx-1360a`
 - **Type:** Compact ride-on
-- **Card blurb:** A compact three-brush ride-on sweeper for mid-sized commercial floors and forecourts — fully electric, with intelligent dust-shaking filtration.
+- **Card blurb:** A compact three-brush ride-on sweeper for mid-sized commercial floors and parking lots, with intelligent dust-shaking filtration.
 - **Card highlight specs:** 1.36 m sweep path · 8,000 m²/h · 48V electric
 
 **Detail description:**
