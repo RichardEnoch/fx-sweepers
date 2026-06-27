@@ -314,6 +314,22 @@
       document.querySelectorAll('[data-fxv]:not([data-fxv-init])').forEach(function(w){
         w.dataset.fxvInit = '1';
         var a = w.querySelector('[data-fxv-a]'), b = w.querySelector('[data-fxv-b]');
+        // Static-poster surfaces: image stays until the user hovers or taps,
+        // then the clip plays. A tap on the media plays it instead of letting
+        // the surrounding link navigate (the text/CTA still navigates).
+        if (a && w.hasAttribute('data-fxv-hover')){
+          var showVid = function(){ if (FX.reduced) return; loadVid(a); play(a); a.style.opacity='1'; };
+          var showImg = function(){ if (a.pause) a.pause(); a.style.opacity='0'; };
+          if (fine){
+            w.addEventListener('pointerenter', showVid);
+            w.addEventListener('pointerleave', showImg);
+          }
+          w.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); if (a.style.opacity==='1') showImg(); else showVid(); });
+          if ('IntersectionObserver' in window){
+            new IntersectionObserver(function(es){ es.forEach(function(e){ if (!e.isIntersecting) showImg(); }); }, { threshold:.05 }).observe(w);
+          }
+          return;
+        }
         if (a && 'IntersectionObserver' in window){
           new IntersectionObserver(function(es){
             es.forEach(function(e){
@@ -886,7 +902,7 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px">
             <sc-for list="{{ homeServices }}" as="s" hint-placeholder-count="3">
               <a href="#" onClick="{{ goServices }}" data-pop data-spotlight style="display:block;text-decoration:none;background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:box-shadow .3s" style-hover="box-shadow:0 22px 44px rgba(8,38,61,.14)">
-                <div data-fxv style="position:relative;aspect-ratio:16/11;background:#0A2E4A;overflow:hidden">
+                <div data-fxv data-fxv-hover style="position:relative;aspect-ratio:16/11;background:#0A2E4A;overflow:hidden">
                   <image-slot id="{{ s.slot }}" src="{{ s.img }}" shape="rect" fit="cover" placeholder="{{ s.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
                   <video data-fxv-a loop muted playsinline preload="none" data-src="{{ s.clipA }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease"></video>
                   <video data-fxv-b loop muted playsinline preload="none" data-src="{{ s.clipB }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease"></video>
