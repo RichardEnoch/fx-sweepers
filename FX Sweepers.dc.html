@@ -843,7 +843,7 @@
 
       <!-- HERO -->
       <section data-hero style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#0A2E4A;z-index:0">
-        <image-slot id="fx-hero-home" shape="rect" fit="cover" placeholder="Drop hero media — electric sweeper in action" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+        <image-slot id="fx-hero-home" src="assets/site/home-hero.jpg" shape="rect" fit="cover" placeholder="Drop hero media — electric sweeper in action" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
         <!-- Phase 3: subtle video backdrop (PLACEHOLDER clip — swap data-src for real fleet footage) -->
         <div data-hero-media data-fxv>
           <video data-fxv-a loop muted playsinline preload="none" data-src="assets/ph/hero.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease"></video>
@@ -887,7 +887,7 @@
             <sc-for list="{{ homeServices }}" as="s" hint-placeholder-count="3">
               <a href="#" onClick="{{ goServices }}" data-pop data-spotlight style="display:block;text-decoration:none;background:#fff;border:1px solid #E6F0F6;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(8,38,61,.05);transition:box-shadow .3s" style-hover="box-shadow:0 22px 44px rgba(8,38,61,.14)">
                 <div data-fxv style="position:relative;aspect-ratio:16/11;background:#0A2E4A;overflow:hidden">
-                  <image-slot id="{{ s.slot }}" shape="rect" fit="cover" placeholder="{{ s.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+                  <image-slot id="{{ s.slot }}" src="{{ s.img }}" shape="rect" fit="cover" placeholder="{{ s.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
                   <video data-fxv-a loop muted playsinline preload="none" data-src="{{ s.clipA }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease"></video>
                   <video data-fxv-b loop muted playsinline preload="none" data-src="{{ s.clipB }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease"></video>
                   <span style="position:absolute;top:14px;left:14px;z-index:2;background:rgba(8,38,61,.65);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:600;letter-spacing:.06em;padding:6px 12px;border-radius:100px;display:inline-flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Fleet footage</span>
@@ -931,7 +931,7 @@
             <a href="#" onClick="{{ goAbout }}" style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;color:#0A2E4A;font-weight:700;font-size:16px;text-decoration:none;border-bottom:2px solid #65C602;padding-bottom:4px" style-hover="color:#00A4D5">About FxSweepers <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
           <div data-reveal="1" style="position:relative;opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
-            <image-slot id="fx-home-intro" shape="rounded" radius="20" fit="cover" placeholder="Drop a fleet / crew photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
+            <image-slot id="fx-home-intro" src="assets/site/home-intro.jpg" shape="rounded" radius="20" fit="cover" placeholder="Drop a fleet / crew photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
             <div style="position:absolute;bottom:-26px;left:-26px;background:#00A4D5;color:#fff;padding:24px 30px;border-radius:16px;box-shadow:0 18px 40px rgba(0,164,213,.32);max-width:230px" data-floatcard>
               <div style="font-size:40px;font-weight:700;line-height:1">100%</div>
               <div style="font-size:15px;font-weight:600;margin-top:4px;line-height:1.4">Electric-powered, zero-emission fleet</div>
@@ -942,7 +942,7 @@
 
       <!-- STATS BAND -->
       <section data-counter-band data-reveal="1" style="position:relative;overflow:hidden;background:#0A2E4A;padding:clamp(82px,9vw,132px) 0;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-        <image-slot id="fx-home-stats" shape="rect" fit="cover" placeholder="Drop a wide fleet photo (background)" style="position:absolute;inset:0;width:100%;height:100%;opacity:.16"></image-slot>
+        <image-slot id="fx-home-stats" src="assets/site/home-stats.jpg" shape="rect" fit="cover" placeholder="Drop a wide fleet photo (background)" style="position:absolute;inset:0;width:100%;height:100%;opacity:.16"></image-slot>
         <div style="position:absolute;inset:0;background:linear-gradient(rgba(8,38,61,.9),rgba(8,38,61,.94))"></div>
         <div data-aurora style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(45% 60% at 18% 18%,rgba(0,164,213,.3),transparent 60%),radial-gradient(42% 56% at 85% 84%,rgba(101,198,2,.2),transparent 62%);animation:fxAurora 18s ease-in-out infinite alternate"></div>
         <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px">
@@ -1000,7 +1000,7 @@
       <section style="padding:clamp(82px,9vw,132px) 0;background:#fff">
         <div style="max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,5vw,80px);align-items:center" data-split>
           <div data-reveal="1" style="position:relative;order:2;opacity:0;transform:translateY(28px);transition:opacity .7s .1s cubic-bezier(.2,.7,.2,1),transform .7s .1s cubic-bezier(.2,.7,.2,1)">
-            <image-slot id="fx-home-equip" shape="rounded" radius="20" fit="cover" placeholder="Drop a sweeper machine photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
+            <image-slot id="fx-home-equip" src="assets/site/home-equip.jpg" shape="rounded" radius="20" fit="cover" placeholder="Drop a sweeper machine photo" style="width:100%;aspect-ratio:4/5;height:auto;display:block"></image-slot>
           </div>
           <div data-reveal="1" style="order:1;opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
             <span style="display:inline-flex;align-items:center;gap:8px;background:#EAF7E3;color:#4C9300;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;padding:7px 14px;border-radius:100px">We also supply the machines</span>
@@ -1653,9 +1653,9 @@ class Component extends DCLogic {
     // clipA/clipB = LOCAL placeholder videos (assets/ph/). Swap for real Fx fleet footage
     // (idle clip = clipA, hover/2nd-angle = clipB).
     const homeServices = [
-      { slot:'fx-home-svc-1', ph:'Drop footage — forecourt sweep', title:'Gas Stations & Forecourts', desc:'High-traffic fuel forecourts kept clean and presentable around the clock, without disrupting customers.', clipA:'assets/ph/sweep1.mp4', clipB:'assets/ph/sweep2.mp4' },
-      { slot:'fx-home-svc-2', ph:'Drop footage — mall car park', title:'Malls & Retail', desc:'Spotless car parks, walkways and service yards that protect the premium feel of retail destinations.', clipA:'assets/ph/sweep2.mp4', clipB:'assets/ph/sweep3.mp4' },
-      { slot:'fx-home-svc-3', ph:'Drop footage — estate roads', title:'Estates & Complexes', desc:'Quiet, electric sweeping for residential estates, business parks and gated communities.', clipA:'assets/ph/sweep3.mp4', clipB:'assets/ph/sweep1.mp4' },
+      { slot:'fx-home-svc-1', img:'assets/site/home-svc-1.jpg', ph:'Drop footage — forecourt sweep', title:'Gas Stations & Forecourts', desc:'High-traffic fuel forecourts kept clean and presentable around the clock, without disrupting customers.', clipA:'assets/ph/sweep1.mp4', clipB:'assets/ph/sweep2.mp4' },
+      { slot:'fx-home-svc-2', img:'assets/site/home-svc-2.jpg', ph:'Drop footage — mall car park', title:'Malls & Retail', desc:'Spotless car parks, walkways and service yards that protect the premium feel of retail destinations.', clipA:'assets/ph/sweep2.mp4', clipB:'assets/ph/sweep3.mp4' },
+      { slot:'fx-home-svc-3', img:'assets/site/home-svc-3.jpg', ph:'Drop footage — estate roads', title:'Estates & Complexes', desc:'Quiet, electric sweeping for residential estates, business parks and gated communities.', clipA:'assets/ph/sweep3.mp4', clipB:'assets/ph/sweep1.mp4' },
     ];
     const stats = [
       { target:500, suffix:'+', label:'Commercial sites cleaned' },
