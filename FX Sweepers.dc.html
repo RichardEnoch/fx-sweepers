@@ -1287,7 +1287,7 @@
             <!-- Video lightbox deactivated (image-only) until real footage is ready. Restore by adding data-lightbox data-clip="{{ v.clip }}" back and un-hiding the play button below. -->
             <sc-for list="{{ videoGallery }}" as="v" hint-placeholder-count="3">
               <div data-reveal="1" style="cursor:default;position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0A2E4A;box-shadow:0 6px 22px rgba(8,38,61,.1);opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)">
-                <image-slot id="{{ v.slot }}" shape="rect" fit="cover" placeholder="{{ v.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+                <image-slot id="{{ v.slot }}" src="{{ v.img }}" shape="rect" fit="cover" placeholder="{{ v.ph }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
                 <span style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;pointer-events:none"><span style="width:64px;height:64px;border-radius:50%;background:rgba(0,164,213,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.3)"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" style="margin-left:3px"><polygon points="6 4 20 12 6 20 6 4"/></svg></span></span>
               </div>
             </sc-for>
@@ -1735,9 +1735,9 @@ class Component extends DCLogic {
       ],
       videoGallery: [
         // clip = LOCAL placeholder (assets/ph/); swap for real machine/process footage.
-        { slot:'fx-svc-vid-1', ph:'Drop video — the sweeper machine', clip:'assets/ph/sweep1.mp4' },
-        { slot:'fx-svc-vid-2', ph:'Drop video — the cleaning process', clip:'assets/ph/sweep2.mp4' },
-        { slot:'fx-svc-vid-3', ph:'Drop video — before & after', clip:'assets/ph/sweep3.mp4' },
+        { slot:'fx-svc-vid-1', img:'assets/site/home-equip.jpg', ph:'Drop video — the sweeper machine', clip:'assets/ph/sweep1.mp4' },
+        { slot:'fx-svc-vid-2', img:'assets/site/about-what.jpg', ph:'Drop video — the cleaning process', clip:'assets/ph/sweep2.mp4' },
+        { slot:'fx-svc-vid-3', img:'assets/site/construction-site.jpg', ph:'Drop video — before & after', clip:'assets/ph/sweep3.mp4' },
       ],
       whyPoints: [
         { title:'Eco-friendly', desc:'A cleaner, quieter, low-emission operation — responsible by design and a story your stakeholders will value.' },
