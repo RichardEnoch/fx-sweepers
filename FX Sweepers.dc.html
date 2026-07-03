@@ -709,16 +709,30 @@
     if (box) return box;
     box = document.createElement('div'); box.className = 'eqm-ov';
     box.innerHTML = '<div class="eqm"><button class="eqm-close" aria-label="Close">&times;</button>'
-      + '<div class="eqm-imgs"><div class="eqm-stage"><div class="eqm-track"></div>'
+      + '<div class="eqm-imgs" data-lenis-prevent><div class="eqm-stage"><div class="eqm-track"></div>'
       + '<button class="eqm-nav prev" aria-label="Previous image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>'
       + '<button class="eqm-nav next" aria-label="Next image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>'
       + '</div><div class="eqm-thumbs"></div></div>'
-      + '<div class="eqm-body"><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
+      + '<div class="eqm-body" data-lenis-prevent><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
     document.body.appendChild(box);
-    function hide(){ stopAuto(); box.classList.remove('show'); setTimeout(function(){ box.style.display='none'; }, 300); }
+    function hide(){
+      stopAuto(); box.classList.remove('show');
+      if (window.FXMotion && window.FXMotion.lenis) window.FXMotion.lenis.start();
+      document.documentElement.style.overflow = '';
+      setTimeout(function(){ box.style.display='none'; }, 300);
+    }
     box.addEventListener('click', function(e){ if (e.target===box) hide(); });
     box.querySelector('.eqm-close').addEventListener('click', hide);
     document.addEventListener('keydown', function(e){ if (e.key==='Escape' && box.style.display==='flex') hide(); });
+    // Hard scroll lock: only let wheel scroll the modal's own panels, and only
+    // while they have room to move — otherwise stop it reaching the page behind.
+    box.addEventListener('wheel', function(e){
+      var panel = e.target.closest && e.target.closest('.eqm-imgs, .eqm-body');
+      if (!panel) { e.preventDefault(); return; }
+      var atTop = panel.scrollTop <= 0;
+      var atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
+      if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) e.preventDefault();
+    }, { passive:false });
     return box;
   }
   function render(p){
@@ -776,6 +790,8 @@
     b.querySelector('.eqm-cta').innerHTML =
       '<a href="https://wa.me/2349038002331?text=' + msg + '" target="_blank" rel="noopener" style="background:#25D366">Enquire on WhatsApp</a>'
       + '<a href="tel:+2349038002331" style="background:#0A2E4A">Call us</a>';
+    if (window.FXMotion && window.FXMotion.lenis) window.FXMotion.lenis.stop();
+    document.documentElement.style.overflow = 'hidden';
     b.style.display='flex'; requestAnimationFrame(function(){ b.classList.add('show'); });
   }
   function open(model, name){
