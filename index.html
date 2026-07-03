@@ -754,11 +754,10 @@
       track.style.transform = 'translateX(' + (-index*100) + '%)';
       var ts = thumbs.querySelectorAll('img');
       ts.forEach(function(x,xi){ x.classList.toggle('act', xi===index); });
-      if (ts[index]) ts[index].scrollIntoView({block:'nearest',inline:'nearest'});
     }
     goTo(0);
-    // Auto-advance every second; pause on hover, resume on leave.
-    function start(){ stopAuto(); if (n>1) auto = setInterval(function(){ if (box.style.display!=='flex'){ stopAuto(); return; } goTo(index+1); }, 1000); }
+    // Auto-advance every 2.5s; pause on hover, resume on leave.
+    function start(){ stopAuto(); if (n>1) auto = setInterval(function(){ if (box.style.display!=='flex'){ stopAuto(); return; } goTo(index+1); }, 2500); }
     function restart(){ start(); }
     start();
     stage.onmouseenter = stopAuto;
