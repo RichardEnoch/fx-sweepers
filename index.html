@@ -40,7 +40,7 @@
   [data-eqcard].is-hidden{display:none!important}
   .eqm-ov{position:fixed;inset:0;z-index:2147483646;display:none;align-items:center;justify-content:center;background:rgba(6,20,33,.82);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s ease;padding:4vw}
   .eqm-ov.show{opacity:1}
-  .eqm{position:relative;width:min(1000px,96vw);max-height:90vh;overflow:hidden;background:#fff;border-radius:18px;box-shadow:0 40px 90px rgba(0,0,0,.5);transform:scale(.96);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-columns:1fr 1fr}
+  .eqm{position:relative;width:min(1000px,96vw);max-height:90vh;overflow-y:auto;overflow-x:hidden;border-radius:18px;background:#fff;box-shadow:0 40px 90px rgba(0,0,0,.5);transform:scale(.96);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-columns:1fr 1fr}
   .eqm-ov.show .eqm{transform:scale(1)}
   .eqm-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(8,38,61,.55);color:#fff;border:none;cursor:pointer;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center}
   .eqm-imgs{background:#EEF5F9;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto}
@@ -708,12 +708,12 @@
   function build(){
     if (box) return box;
     box = document.createElement('div'); box.className = 'eqm-ov';
-    box.innerHTML = '<div class="eqm"><button class="eqm-close" aria-label="Close">&times;</button>'
-      + '<div class="eqm-imgs" data-lenis-prevent><div class="eqm-stage"><div class="eqm-track"></div>'
+    box.innerHTML = '<div class="eqm" data-lenis-prevent><button class="eqm-close" aria-label="Close">&times;</button>'
+      + '<div class="eqm-imgs"><div class="eqm-stage"><div class="eqm-track"></div>'
       + '<button class="eqm-nav prev" aria-label="Previous image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>'
       + '<button class="eqm-nav next" aria-label="Next image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>'
       + '</div><div class="eqm-thumbs"></div></div>'
-      + '<div class="eqm-body" data-lenis-prevent><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
+      + '<div class="eqm-body"><h3></h3><span class="eqm-model"></span><p class="eqm-desc"></p><div class="eqm-specs"></div><div class="eqm-cta"></div></div></div>';
     document.body.appendChild(box);
     function hide(){
       stopAuto(); box.classList.remove('show');
@@ -724,10 +724,10 @@
     box.addEventListener('click', function(e){ if (e.target===box) hide(); });
     box.querySelector('.eqm-close').addEventListener('click', hide);
     document.addEventListener('keydown', function(e){ if (e.key==='Escape' && box.style.display==='flex') hide(); });
-    // Hard scroll lock: only let wheel scroll the modal's own panels, and only
-    // while they have room to move — otherwise stop it reaching the page behind.
+    // Hard scroll lock: only let wheel scroll the modal's own panel, and only
+    // while it has room to move — otherwise stop it reaching the page behind.
     box.addEventListener('wheel', function(e){
-      var panel = e.target.closest && e.target.closest('.eqm-imgs, .eqm-body');
+      var panel = e.target.closest && e.target.closest('.eqm');
       if (!panel) { e.preventDefault(); return; }
       var atTop = panel.scrollTop <= 0;
       var atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
