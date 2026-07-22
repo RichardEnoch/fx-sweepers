@@ -1681,6 +1681,35 @@ class Component extends DCLogic {
   }
   set(group, field, v){ this.setState(s => ({ [group]: { ...s[group], [field]: v } })); }
 
+  // Web3Forms delivery. Get a free access key at https://web3forms.com (enter info@fxsweepers.com),
+  // then paste the key below. Submissions email straight to that inbox — no backend needed.
+  WEB3FORMS_ACCESS_KEY = '4884d274-da36-484c-9866-470261edbb9e';
+
+  async submitForm(group, sentFlag, subject){
+    const data = this.state[group];
+    if (!this.WEB3FORMS_ACCESS_KEY || this.WEB3FORMS_ACCESS_KEY.indexOf('PASTE-') === 0){
+      alert('This form is not connected yet. Please email info@fxsweepers.com directly.');
+      return;
+    }
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: this.WEB3FORMS_ACCESS_KEY,
+          subject: subject,
+          from_name: 'FxSweepers Website',
+          ...data
+        })
+      });
+      const json = await res.json();
+      if (json.success) { this.setState({ [sentFlag]: true }); }
+      else { alert('Sorry, something went wrong sending your message. Please email info@fxsweepers.com.'); }
+    } catch (err) {
+      alert('Network error — please try again, or email info@fxsweepers.com.');
+    }
+  }
+
   icon(paths, sw) {
     return React.createElement('svg', { width:26, height:26, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth: sw||2, strokeLinecap:'round', strokeLinejoin:'round' },
       ...(Array.isArray(paths)?paths:[paths]).map((d,i)=>React.createElement('path',{key:i,d})));
@@ -1791,16 +1820,16 @@ class Component extends DCLogic {
       toggleMenu: (e)=>{ e && e.preventDefault(); this.setState(s=>({ menuOpen: !s.menuOpen })); },
       lead: this.state.lead, leadSent: this.state.leadSent,
       onLead: new Proxy({}, { get:(_,f)=> (e)=> this.set('lead', String(f), e.target.value) }),
-      submitLead: (e)=>{ e.preventDefault(); this.setState({ leadSent:true }); },
+      submitLead: (e)=>{ e.preventDefault(); this.submitForm('lead','leadSent','New Lead — FxSweepers website'); },
       contact: this.state.contact, contactSent: this.state.contactSent,
       onContact: new Proxy({}, { get:(_,f)=> (e)=> this.set('contact', String(f), e.target.value) }),
-      submitContact: (e)=>{ e.preventDefault(); this.setState({ contactSent:true }); },
+      submitContact: (e)=>{ e.preventDefault(); this.submitForm('contact','contactSent','New Contact enquiry — FxSweepers website'); },
       rfq: this.state.rfq, rfqSent: this.state.rfqSent,
       onRfq: new Proxy({}, { get:(_,f)=> (e)=> this.set('rfq', String(f), e.target.value) }),
-      submitRfq: (e)=>{ e.preventDefault(); this.setState({ rfqSent:true }); },
+      submitRfq: (e)=>{ e.preventDefault(); this.submitForm('rfq','rfqSent','New Equipment RFQ — FxSweepers website'); },
       quote: this.state.quote, quoteSent: this.state.quoteSent,
       onQuote: new Proxy({}, { get:(_,f)=> (e)=> this.set('quote', String(f), e.target.value) }),
-      submitQuote: (e)=>{ e.preventDefault(); this.setState({ quoteSent:true }); },
+      submitQuote: (e)=>{ e.preventDefault(); this.submitForm('quote','quoteSent','New Quote request — FxSweepers website'); },
     };
   }
 }
